@@ -22,6 +22,15 @@ html, .main {
 	font-size:0;
 	line-height:0;
 }
+
+/*Boite d'entree sequence format*/
+.sequence_box {
+	width:630px;
+        height:200px;
+}
+
+
+
 h2 {
 	margin:8px 0;
 	padding:8px 0;
@@ -485,3 +494,4 @@ ol li .send {
 a {
 	outline:none;
 }
+
