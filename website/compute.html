@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Voope</title>
+<title>2dSS Secondary Structure Visualization</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="css/coin-slider.css" />
@@ -70,10 +70,12 @@
                 	<input type="submit" value='submit'/>
                  	<br />
                 </fieldset></form>
+
+
                 <h2>Or you can just upload your files</h2>
-              
-                <!-- Boite pour upload sequence-->
+                <!-- Boite des uploads-->
                 <form method='post' action='view2Dalignement.php'><fieldset>
+			
                 	<label for='align'>Upload Sequence File:</label>
                 	<input type="file" id='align' name='align' width="630"/>
 			            <br />
@@ -84,6 +86,20 @@
                 	
                  	<input type="submit" value='submit'/>
                 </fieldset></form>
+
+		<h2>Additionnal Parameters you may wish to consider</h2>
+		 <form method='post' action='view2Dalignement.php'><fieldset>
+			<!--Specifier taille sortie-->
+                	<label for='size'>Output Size:</label>
+                	<input type="number" id="size" rows=1 cols=1 min="0">
+					<br />
+			<!--Separer-->
+			<label for='separate'>Separate</label>
+                	<input type="checkbox" id="checkbox" >	
+                </fieldset></form>
+
+
+
           </div> 
           <div class="clr"></div>
         </div>
