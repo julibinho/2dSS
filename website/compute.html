@@ -57,36 +57,33 @@
                 
                 <h2>You can insert your data directly here</h2>
                 <!-- Boite pour mettre sequence-->
-                <form>
-                Insert Sequence here :
-                <input type="text"  class="sequence_box"/>
-                </form>
-             
-                <!-- Boite pour mettre structure 2D-->
-                 <form>
-                <br></br>
-                Insert 2D Structure Alignment here :
-                <input type="text"  class="sequence_box"/>
-                </form>
-                 <br></br>
-                <button type="button">Submit</button>
-                 <br></br>
-                 
+                <form method='post' action='view2Dalignement.php'><fieldset>
+               		<label for='align'>Insert Sequence here :</label>
+                	<textarea name="align" rows=12 cols=88>Insert Insert Sequence</textarea>
+			
+                	<!-- Boite pour mettre structure 2D-->
+                	<br />
+                	<label for='pred'>Insert 2D Structure Alignment here :</label>
+                	<textarea name="pred" rows=12 cols=88>Insert 2D Structure Alignment</textarea>
+               
+                 	<br />
+                	<input type="submit" value='submit'/>
+                 	<br />
+                </fieldset></form>
                 <h2>Or you can just upload your files</h2>
               
                 <!-- Boite pour upload sequence-->
-                 <form>
-                Upload Sequence File:
-                <input type="text"  width="630"/>
-                </form>
-                
-                 <form>
-                Upload 2D Alignment File:
-                <input type="text"  width="630"/>
-                </form>
-                 <br></br>
-                 <button type="button">Submit</button> 
-                
+                <form method='post' action='view2Dalignement.php'><fieldset>
+                	<label for='align'>Upload Sequence File:</label>
+                	<input type="file" id='align' name='align' width="630"/>
+			            <br />
+				
+                	<label for='pred'>Upload 2D Alignment File:</label>               		
+                	<input type="file" id='pred' name='pred' width="630"/>
+                	<br />
+                	
+                 	<input type="submit" value='submit'/>
+                </fieldset></form>
           </div> 
           <div class="clr"></div>
         </div>
