@@ -58,34 +58,42 @@
                 <h2>You can insert your data directly here</h2>
                 <!-- Boite pour mettre sequence-->
                 <form method='post' action='view2Dalignement.php'>
-               		<label for='align'>Insert Sequence here :</label>
-                	<textarea name="align" rows=12 cols=88>Insert Sequence</textarea>
+               		<label for="align">Insert Sequence here :</label>
+                	<textarea id="align" name="align" rows=12 cols=88>Insert Sequence</textarea>
+                        <span id="Alignmanquant"> </span>
 			
                 	<!-- Boite pour mettre structure 2D-->
                 	<br />
-                	<label for='pred'>Insert 2D Structure Alignment here :</label>
-                	<textarea name="pred" rows=12 cols=88>Insert 2D Structure Alignment</textarea>
-               
+                	<label for="pred">Insert 2D Structure Alignment here :</label>
+                	<textarea id="pred" name="pred" rows=12 cols=88>Insert 2D Structure Alignment</textarea>
+                        <span id="2Dmanquant"> </span>
+                        
                  	<br />
-                	<input type="submit" value='submit'/>
+                	<input type="submit" value='submit' id='submit_button'>
                  	<br />
                 </form>
-
+                
+		<script type="text/javascript" src="js/submit.js"></script> 
+                
 
                 <h2>Or you can just upload your files</h2>
                 <!-- Boite des uploads-->
                 <form method='post' action='view2Dalignement.php'>
 			
                 	<label for='align'>Upload Sequence File:</label>
-                	<input type="file" id='align' name='align' width="630"/>
+                	<input type="file" id='alignn' name='align' width="630"/>
 			            <br />
 				
                 	<label for='pred'>Upload 2D Alignment File:</label>               		
-                	<input type="file" id='pred' name='pred' width="630"/>
+                	<input type="file" id='predd' name='pred' width="630"/>
                 	<br />
                 	
-                 	<input type="submit" value='submit'/>
+                 	<input type="submit" value='submit' id='submit_button'>
                 </form>
+                
+               
+                
+               
 
 		<h2>Additionnal Parameters you may wish to consider</h2>
 		 <form method='post' action='view2Dalignement.php'>
