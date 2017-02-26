@@ -10,7 +10,8 @@ function f_valid(e){
     //var fa= format_align();
     //alert("le or");
    // alert( ( cm|| fa));
-    if(content_missing() || format_align()){
+    if(content_missing() ){
+		//|| format_align()){
       //  alert("content missing or format align");
       //  alert(content_missing());
        // alert(format_align());
