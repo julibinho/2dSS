@@ -30,7 +30,7 @@ function content_missing(){
    var bool=false;
    
     
-     if(align.length == "" ){
+     if(align.length < 1 ){
                    //alert('alignlength <1');
                    var champ_alignvide = document.getElementById("alignvide");
                    champ_alignvide.textContent = "Contents missing";
@@ -38,7 +38,7 @@ function content_missing(){
                     bool = true;
      }             
                     
-    if(pred.length == "" ){
+    if(pred.length < 1 ){
                     //alert('pred length <1');
                     // var champ_predvide = document.getElementById("predvide");
                      champ_predvide.textContent = "Contents missing";
