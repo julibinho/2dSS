@@ -56,16 +56,18 @@
             <div class="post_content">
                 
                 <h2>You can insert your data directly here</h2>
-                <!-- Boite pour mettre sequence-->
+                
                 <form method="post" action="test.php" enctype="multipart/form-data">
+                        <!-- Boite pour mettre sequence-->
                		<label for="align">Insert Sequence here :</label>
-                	<textarea name="align" id="pred" rows=12 cols=88>Insert Sequence</textarea>
-			
+                	<textarea name="align" id="align" rows=12 cols=88>Insert Sequence</textarea>
+                        <span id="alignvide"></span>
+                        
                 	<!-- Boite pour mettre structure 2D-->
                 	<br />
                 	<label for="pred">Insert 2D Structure Alignment here :</label>
                 	<textarea name="pred" id="pred" rows=12 cols=88>Insert 2D Structure Alignment</textarea>
-               
+                        <span id="predvide"></span>
                  	<br />
                  	
                 	<input<!--Specifier taille sortie-->
@@ -106,6 +108,8 @@
                 	
                  	<input type="submit" value="submit" id="submit_button"/>
                	</form>
+                <script type="text/javascript" src="js/submit.js"></script>
+                
           </div> 
           <div class="clr"></div>
         </div>
