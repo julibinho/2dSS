@@ -66,10 +66,10 @@ function content_missing_box_pred(){
 // Fonction testant si le format dans box 1 incorrecte
 function format_incorrect_box_align(){
     
-    alert("entre dans fonction formatincorr box align");
-    alert("arrayseq au debut");
+    //alert("entre dans fonction formatincorr box align");
+    //alert("arrayseq au debut");
     arraySeq = [];
-    alert(arraySeq);
+ //   alert(arraySeq);
     
     
     if (content_missing_box_align()){
@@ -133,7 +133,7 @@ function format_incorrect_box_align(){
             if(i  === premiere_i ){
            //     alert("entre dans test premiere ligne, affichons le aray apres ajout");
                  arraySeq.push(col1);
-                 alert(arraySeq);
+               //  alert(arraySeq);
            
             }else{
                 
@@ -199,8 +199,8 @@ function format_incorrect_box_align(){
         }
     }
        
-    alert("array seq a la fin de tous les groupes");
-    alert(arraySeq);
+   // alert("array seq a la fin de tous les groupes");
+  //  alert(arraySeq);
     
    //  if (premierefois === 1){
      //   premierefois = 0;
