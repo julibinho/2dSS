@@ -57,7 +57,7 @@
                 
                 <h2>You can insert your data directly here</h2>
                 
-                <form method="post" action="test.php" enctype="multipart/form-data">
+                <form method="post" action="view2Dalign.php" enctype="multipart/form-data">
                         <!-- Boite pour mettre sequence-->
                		<label for="align">Insert Sequence here :</label>
                 	<textarea name="align" id="align" rows=12 cols=88>Insert Sequence</textarea>
@@ -72,13 +72,13 @@
                  	
                 	<input<!--Specifier taille sortie-->
                 	<label for="size">Output Size:</label>
-                	<input type="number" id="size" rows=1 cols=1 min="0"/>
+                	<input type="number" id="size" name="size" rows=1 cols=1 min="0"/>
 			<br />
 			
 			<!--Separer-->
 			<label for="separate">Separate</label>
 			
-                	<input type="checkbox" id="checkbox" />	
+                	<input type="checkbox" id="separate" name="separate" />	
                 	<br />
                 	 
                 	<input type="submit" value="submit" id="submit_button"/>
@@ -87,7 +87,7 @@
                 <h2>Or you can just upload your files</h2>
               
                 <!-- Boite pour upload sequence-->
-                <form method="post" action="test.php" enctype="multipart/form-data">
+                <form method="post" action="view2Dalign.php" enctype="multipart/form-data">
                 	<label for="align">Upload Sequence File:</label>
                 	<input type="file" id="align" name="align" width="630"/>
 			<br />
@@ -98,12 +98,12 @@
                 	
                 	<!--Specifier taille sortie-->
                 	<label for="size">Output Size:</label>
-                	<input type="number" id="size" rows=1 cols=1 min="0"/>
+                	<input type="number" id="size" name="size" rows=1 cols=1 min="0"/>
 			<br />
 			
 			<!--Separer-->
 			<label for="separate">Separate</label>
-                	<input type="checkbox" id="checkbox" />	
+                	<input type="checkbox" id="separata" name="separate" />	
                 	<br />
                 	
                  	<input type="submit" value="submit" id="submit_button"/>
