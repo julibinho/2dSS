@@ -66,6 +66,8 @@ $aln = "/tmp/f.txt";
 
 //le fichier a afficher
 $res = "/tmp/resultat.txt";
+$separate="";
+$size="";
 
 //On test si les textarea sont rempli
 if(isset($_POST['align']) and isset($_POST['pred'])){ 
@@ -84,12 +86,30 @@ if(isset($_POST['align']) and isset($_POST['pred'])){
 		$pred = $_FILES['pred']['tmp_name'];
 	}		
 }
+
+//test si l'option separate a ete utilise
+if(isset($_POST['separate'])){
+	$separate = " --s";
+}
+
+//test si la largeur a ete modifie
+if(isset($_POST['size'])){
+	if($_POST['size']>68){
+		$size .= " -size 68";
+	}else{
+		if($_POST['size']<50){
+			$size .= " -size 50";
+		}else{
+			$size .= " -size ".$_POST['size'];
+		}
+	}
+}
+
 //execution des scripts
 exec("python ".$script." -alnFile ".$align." -ssFile ".$pred." -o ".$aln);	
-exec("python ".$script2." -inputFile ".$aln." -o ".$res);
+exec("python ".$script2." -inputFile ".$aln." -o ".$res.$size.$separate);
 	
 //affichage sur la page dans mainbar
-		
 readfile($res);
 
 //les fichiers sont vider et les variables globales remises a vide
@@ -108,8 +128,6 @@ echo "</form>";
           </div> 
           <div class="clr"></div>
         </div>
-          
-          
       </div>
       
         
