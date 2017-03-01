@@ -56,10 +56,10 @@
             <div class="post_content">
 <?php
 //chemin vers le premiers script 
-$script = "/home/cochard/L3/S6/projet/2dSS-master/scripts/2dsstoaln.py";
+$script = "/var/www/html/2dSS-master/scripts/2dsstoaln.py";
 
 //chemin vers le deuxieme script
-$script2 = "/home/cochard/L3/S6/projet/2dSS-master/scripts/2dss.py";
+$script2 = "/var/www/html/2dSS-master/scripts/2dss.py";
 
 //premier resultat
 $aln = "/tmp/f.txt";
