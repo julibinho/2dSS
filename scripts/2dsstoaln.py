@@ -105,7 +105,7 @@ def saveFile(hash2ss,hashAln,listeCle):
 	with open(outputFile,"w") as f :
 		for j in listeCle:
 			stru2d = ''.join(hash2ss[j])
-			f.write(j + "\t" + str(hashAln[j]) + "\t" + stru2d + "\n")
+			f.write(j + "\t" + str(hashAln[j].upper()) + "\t" + stru2d + "\n")
 			
 			
 ############################################################################
