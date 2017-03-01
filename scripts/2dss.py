@@ -5,7 +5,7 @@ inputFile = ""
 outputFile = ""
 separate = False
 COLOR_TEXT = "black"
-html = True
+html = False
 
 #Constantes
 COL_ID = 0;     COL_ALN = 1;    COL_2SS = 2;
@@ -34,27 +34,6 @@ aa_classes = {
     'K': 'red',
     'R': 'red',
     'X': 'black',
-    'i': 'DarkBlue',
-    'v': 'DarkBlue',
-    'l': 'DarkBlue',
-    'f': 'DarkBlue',
-    'c': 'DarkSalmon',
-    'm': 'DarkBlue',
-    'a': 'DarkBlue',
-    'w': 'DarkBlue',
-    'g': 'Orange',
-    't': 'green',
-    's': 'green',
-    'y': 'LightSeaGreen ',
-    'p': 'DarkGoldenRod',
-    'h': 'LightSeaGreen ',
-    'n': 'green',
-    'd': 'DarkOrchid',
-    'q': 'green',
-    'e': 'DarkOrchid',
-    'k': 'red',
-    'r': 'red',
-    'r': 'black',
     '-': 'black'
 }
 
