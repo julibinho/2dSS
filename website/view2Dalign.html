@@ -28,6 +28,7 @@
         <h1><a href="index.html">2d<span>SS</span> <small>secondary structure visualization</small></a></h1>
       </div>
       <div class="clr"></div>
+     
       <div class="clr"></div>
     </div>
   </div>
@@ -51,14 +52,14 @@
                 
                 <form method="post" action="view2Dalign.php" enctype="multipart/form-data">
                         <!-- Boite pour mettre sequence-->
-               		<label for="align">Insert Sequences here :</label>
-                	<textarea name="align" id="align" rows=12 cols=84>Insert Sequences</textarea>
+               		<label for="align">Insert Sequence here :</label>
+                	<textarea name="align" id="align" rows=12 cols=80>Insert Sequence</textarea>
                         <span id="alignvide"></span>
                         
                 	<!-- Boite pour mettre structure 2D-->
                 	<br />
                 	<label for="pred">Insert 2D Structures here :</label>
-                	<textarea name="pred" id="pred" rows=12 cols=84>Insert 2D Structures</textarea>
+                	<textarea name="pred" id="pred" rows=12 cols=80>Insert 2D Structure Alignment</textarea>
                         <span id="predvide"></span>
                  	<br />
                  	
@@ -118,8 +119,8 @@
           <div class="clr"></div>
           <ul class="sb_menu">
             <li><a href="view2Dalign.html">View 2d Alignment</a></li>
-            <li><a href="#">Compute 2d Alignment</a></li>
-            <li><a href="#">Compare Predictions</a></li>
+            <li><a href="compute2Dalign.html">Compute 2d Alignment</a></li>
+            <li><a href="comparepred.html">Compare Predictions</a></li>
           </ul>
         </div>
         <div class="gadget">
