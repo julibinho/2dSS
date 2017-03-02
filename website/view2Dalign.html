@@ -46,33 +46,62 @@
           
           <div class="clr"></div>
             <div class="post_content">
-<?php
-include("v2Dfonctions.php");
-$separate="";
-$size="";
-$file=array();
-//test si 
-if(isset($_POST['align']) and isset($_POST['pred']))	$files = createFiles();
-else	if(isset($_FILES['align']) and isset($_FILES['pred']))	$files = array(0 => $_FILES['align']['tmp_name'], 1 => $_FILES['pred']['tmp_name']);
-
-if(isset($_POST['separate']))	$separate = " --s";
-
-if(isset($_POST['size'])){
-	if($_POST['size']>68)	$size .= " -size 68";
-	else{
-		if($_POST['size']<50)	$size .= " -size 50";
-		else	$size .= " -size ".$_POST['size'];
-	}
-}
-
-readfile($res = execute($files[0],$files[1],$size, $separate));
-unlink($res);
-unset($GLOBALS['_FILES']);
-unset($GLOBALS['_POST']);
-?> 
-          	<form method="get" action="view2Dalign.html" enctype="multipart/form-data">     
-          	<center><input type="submit" value="previous"/></center>
-          	</form>
+                
+                <h2>You can insert your data directly here</h2>
+                
+                <form method="post" action="view2Dalign.php" enctype="multipart/form-data">
+                        <!-- Boite pour mettre sequence-->
+               		<label for="align">Insert Sequences here :</label>
+                	<textarea name="align" id="align" rows=12 cols=84>Insert Sequences</textarea>
+                        <span id="alignvide"></span>
+                        
+                	<!-- Boite pour mettre structure 2D-->
+                	<br />
+                	<label for="pred">Insert 2D Structures here :</label>
+                	<textarea name="pred" id="pred" rows=12 cols=84>Insert 2D Structures</textarea>
+                        <span id="predvide"></span>
+                 	<br />
+                 	
+                	<input<!--Specifier taille sortie-->
+                	<label for="size">Output Size:</label>
+                	<input type="number" id="size" name="size" rows=1 cols=1 min="0"/>
+			<br />
+			
+			<!--Separer-->
+			<label for="separate">Separate</label>
+			
+                	<input type="checkbox" id="separate" name="separate" />	
+                	<br />
+                	 
+                	<input type="submit" value="submit" id="submit_button"/>
+                 	<br />
+                </form>
+                <h2>Or you can just upload your files</h2>
+              
+                <!-- Boite pour upload sequence-->
+                <form method="post" action="view2Dalign.php" enctype="multipart/form-data">
+                	<label for="align">Upload Sequence File:</label>
+                	<input type="file" id="align" name="align" width="630"/>
+			<br />
+				
+                	<label for="pred">Upload 2D Alignment File:</label>               		
+                	<input type="file" id="pred" name="pred" width="630"/>
+                	<br />
+                	
+                	<!--Specifier taille sortie-->
+                	<label for="size">Output Size:</label>
+                	<input type="number" id="size" name="size" rows=1 cols=1 min="0"/>
+			<br />
+			
+			<!--Separer-->
+			<label for="separate">Separate</label>
+                	<input type="checkbox" id="separate" name="separate" />	
+                	<br />
+                	
+                 	<input type="submit" value="submit" id="submit_button"/>
+               	</form>
+                <script type="text/javascript" src="js/submit.js"></script>
+                
           </div> 
           <div class="clr"></div>
         </div>
