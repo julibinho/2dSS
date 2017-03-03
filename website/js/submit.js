@@ -7,11 +7,11 @@ var champ_alignvide = document.getElementById("alignvide");
 //Var global stockant les noms eg d1x9fc_, d1jl7a_ ...
 var arraySeq = []; 
 
-//var premierefois = 1;
 
 // Boolean indiaquant si IncorrectFormat dans contenu de  Box Align (box 1)
 var IFal = 0;
 
+var CMal = 0;
 
 //Fonction principale de validation quand on click sur le bouton submit
 function f_valid(e){
@@ -40,6 +40,7 @@ function content_missing_box_align(){
                   
             champ_alignvide.textContent = "Contents missing";
             champ_alignvide.style.color = "red";
+            CMal = 1;
             return true;
         }
         
@@ -70,7 +71,7 @@ function format_incorrect_box_align(){
     //alert("arrayseq au debut");
     arraySeq = [];
  //   alert(arraySeq);
-    
+ 
     
     if (content_missing_box_align()){
         return false;
@@ -79,143 +80,145 @@ function format_incorrect_box_align(){
     var textArea = document.getElementById("align");
     var arrayOfLines = textArea.value.split("\n"); 
     var nolignes = arrayOfLines.length; //le nombre de lignes total 
-    
-    var i;
+    alert("nolignes");
+    alert(nolignes);
+   
     
     //Lecture des lignes vides /entres 
     //On commence a i=1 car la premiere ligne contient le titre
+     var i;
     for(i=1; i<arrayOfLines.length; i++){
         if(arrayOfLines[i].length !== 0){
                break;
         }
     }
    
-    var j=0; //commencer a partir de la ligne contenant le sequence
-    var premiere_i = i;
-    
+
+    var cols = arrayOfLines[i].split(" ");
+    var col1 = cols[0];
+    //Longeur generale de la col1
+    var length_col1 = col1.length;
+
    
-   // WHILE  
-    while(j<5){
-               
-        //Arrive a fin      
-        if (i+j > nolignes-1){
-             break;
+   // PREMIER GROUPE -> RECUEILLIR LES INFORMATIONS //
+    
+   //Indice indiquant debut col3
+   var ind_col3 = length_col1;
+   while(arrayOfLines[i][ind_col3] === " "){
+       ind_col3++;
+   }
+   //Longeur general col3
+   var length_col3 = arrayOfLines[i].length - ind_col3;
+   
+
+   
+   var j=0; 
+   // While de Premiere passage -> Compteur le nd de sequences, la longeur de la sequence
+   while(col1.length>0 && i < nolignes){
+
+
+        //test si long col1 pas coherent
+        if (col1.length !== length_col1){
+            champ_alignvide.textContent = "Incorrect Format";
+             champ_alignvide.style.color = "red";
+             IFal = 1;
+             return true;
+             
         }
         
-        //Lecture d'une ligne
-        var line = arrayOfLines[i+j]; 
-        var longligne = line.length;
-        
-        if (j===0){
-            var longfirsli = longligne;
-        }
-        /*
-         //test si longeur d'une ligne est bien 73
-        if(longligne !== 73){
-           champ_alignvide.textContent = "Incorrect Format";
-           champ_alignvide.style.color = "red";
-           return true;
-        }
-        */
-        //test si la premiere colonne ne contient pas d'espace
-        var col1 = line.substring(0,7);
+        //test si la col1 contient espace
         if (col1.includes(" ")){
-          //  alert("premiere colonne contient espace donc sort");
+            champ_alignvide.textContent = "Incorrect Format";
+             champ_alignvide.style.color = "red";
+             IFal = 1;
+             return true;
+        }
+        
+       // alert("le push");
+       //Stoker le nom de dans le tableau global
+       arraySeq.push(col1);
+    
+       //  alert(arraySeq);
+       
+       /*var col3 = substring(line(ind_col3, line.length-1));
+       if (col3.length !== length_col3){
              champ_alignvide.textContent = "Incorrect Format";
              champ_alignvide.style.color = "red";
-             
              IFal = 1;
-             
              return true;
+       }
+       */
+       i++;
+       j++;
+
+       cols = arrayOfLines[i].split(" ");
+       col1 = cols[0];
+    }
+ 
+    
+    //On a desormais le nb de sequences dans un groupe
+    var nbseq = j;
+  //  alert("nb in seq");
+    //alert(nbseq);
+    // FIN PREMIER GROUPE //
+    
+    // AUTRES GROUPES //
+    
+    //Chercher debut autre groupe (ignorer les lignes vides ou les : : , . )
+    while(col1.length===0 && i < nolignes){
+  
+         i++;
         
-        //Sinon on le stock dans notre var global pour verifier la coherence 
-        }else{
-            if(i  === premiere_i ){
-           //     alert("entre dans test premiere ligne, affichons le aray apres ajout");
-                 arraySeq.push(col1);
-               //  alert(arraySeq);
-           
-            }else{
-                
-                if(col1 !== arraySeq[j]){
-                    
-             //       alert("oops ne correspondent pas car");
-              //      alert(col1);
-               //     alert("nest pas egal a");
-                 //   alert(arraySeq[j]);
+         if (i>= nolignes){
+             alert("fin de la page atteinte  break");
+             break;
+         }
+         
+         cols = arrayOfLines[i].split(" ");
+         col1 = cols[0];
+    
+         //Debut d(un groupe
+         if ( col1.length>0) {
+        
+             var g;
+             for(g = 0; g< nbseq; g++){
+     
+                 
+                 if (arraySeq[g] !== col1){
+                    // alert("ne corresp pas");
                     champ_alignvide.textContent = "Incorrect Format";
                     champ_alignvide.style.color = "red";
-                    
                     IFal = 1;
-                    
-                     return true;
-                    
-                }
+                    return true;
+                 }
+                   
+                 i++;    
+                 cols = arrayOfLines[i].split(" ");
+                 col1 = cols[0]; 
+             
             }
-        }
-        
-        //test 2e colonne est bien 'vide'
-        var col2 = line.substring(7,13);
-        if (col2 !== "      "){
-           // alert("col2 pas 'vide' donc sort");
-             champ_alignvide.textContent = "Incorrect Format";
-             champ_alignvide.style.color = "red";
-             
-             IFal = 1;
-             
-             return true;
-        }
-        
-        //test si les longueurs des 3e colonnes d'un meme groupe sont egales       
-        var longcol3 = longligne - 13 + 1;
-        if (longcol3 !== longfirsli -13 + 1 ){
-           //  alert("difference longueur!!! donc sort");
-             champ_alignvide.textContent = "Incorrect Format";
-             champ_alignvide.style.color = "red";
-             
-             IFal = 1;
-             
-             return true;
-        }
-        //test si la 3e colonne ne contient pas d'espace
-        var col3 = line.substring(13,longfirsli);
-        if (col3.includes(" ")){
-          //  alert("col3 contient estpace donc sort");
-            champ_alignvide.textContent = "Incorrect Format";
-            champ_alignvide.style.color = "red";
             
-            IFal = 1;
-            return true;
-        }
+            //alert("fin de boucle groupe avec i:");
+          //  alert(i);
+      
+         }
+         
+         
+         
         
-        //Arrive a fin d'un groupe
-        if(j===4){
-          //  alert("fin de groupe passe au groupe suivant");
-            i = i + 7; //Passer au groupe suivant ignorant la ligne contenant les : . *
-            j=0;
-        }else{
-          //  alert("fin ligne passe a ligne suivante");
-            j++;
-        }
     }
-       
-   // alert("array seq a la fin de tous les groupes");
-  //  alert(arraySeq);
     
-   //  if (premierefois === 1){
-     //   premierefois = 0;
-    //}
-    
-    IFal = 0;
-    
-    return false; 
+    alert("sort de tous les boucles");
+   
+   //Tout va bien format correcte 
+   return false;
 }
+
+    
 
 // Fonction testant si le format dans box 2 incorrecte   
 function format_incorrect_box_pred(){
-   // alert("entre dans formatinc box pred");
-   // alert("ici arrayseq");
-   // alert(arraySeq);
+
    
    // Sortir de cette fonction si la box 2 est vide
    if (content_missing_box_pred()){
@@ -223,7 +226,7 @@ function format_incorrect_box_pred(){
    }
    
    // Sortir de cette fonction si la box 1 est vide
-   if(content_missing_box_align()){
+   if(CMal === 1){
      //  alert("box pred vide on sort de format pred");
        return false;
    }
@@ -235,9 +238,7 @@ function format_incorrect_box_pred(){
    }
 
    
-     //alert("continue dans fonction box pred, le array seq :");
-    //alert(arraySeq);
-    
+
     
     // Lecture des lignes
     var textArea = document.getElementById("pred");
@@ -249,7 +250,7 @@ function format_incorrect_box_pred(){
             var line = arrayOfLines[i];
           
             // Lecture col1
-            var col1 = line.substring(0,7);
+            var col1 = line.substring(0,7); // a changer ce 7 par longueur d'une col1
             
             // Tester si col1 de box2 correspond a une des col1 de box 1
             if(!arraySeq.includes(col1)){
@@ -260,15 +261,13 @@ function format_incorrect_box_pred(){
                 champ_alignvide.textContent = "Mismatch";
                 champ_alignvide.style.color = "red";
                 
-                arraySeq = [];   // Remarque ask teacher why ...
+                arraySeq = [];   // Remettre var globale a vide..
                 return true;
             }
-            
-            
-            
+    
     }
     
-    arraySeq = []; // Remarque ask teacher why...
+    arraySeq = []; // Remettre var globale a vide
     
     return false; 
 }
