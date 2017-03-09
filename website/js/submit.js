@@ -64,51 +64,70 @@ function content_missing_box_pred(){
               
 }
 
-// Fonction testant si le format dans box 1 incorrecte
+// Fonction retournant true si le format dans box 1 incorrecte, false sinon
 function format_incorrect_box_align(){
-     
-  //  arraySeq = []; 
-   // var first = 1; // boolean pour dire qu'on passe dans le premier groupe
     
+    // Si la box 1 est vide, retourner faux directement et sortir de la fonction 
     if (content_missing_box_align()){
         return false;
     }
    
     var textArea = document.getElementById("align");
-    var arrayOfLines = textArea.value.split("\n"); 
+    var arrayOfLines = textArea.value.split("\n");  // les lignes sont stockees dans arrayOfLines
     var nolignes = arrayOfLines.length; //le nombre de lignes total 
 
     var i=0;
+    
+    //parcourir chaque ligne jusqu'a la fin
     while(i<nolignes){
-        /*
-        if (arraySeq.includes(col1)){
-            first = 0;
-        }*/
-	
-	var ligne = arrayOfLines[i]; // recuperer ligne courante
-	var cols = ligne.split(" "); // spliter la ligne 
-	var col1 = cols[0]; // recuperer la col1
-
-	// test si longeur >= 15
-	if (col1.length >= 15){
-		 champ_alignvide.textContent = "Incorrect Format";
-           	 champ_alignvide.style.color = "red";
-		 IFal = 1;
-		 return true;
-	}
-
-	// test si ce n'est pas la ligne vide entre et si col1 contient espace 
-	if ((col1!==" ") && col1.includes(" ")){
-		 champ_alignvide.textContent = "Incorrect Format";
-           	 champ_alignvide.style.color = "red";
-		 IFal = 1;
-		 return true;
-	}
         
+        // recuperer ligne courante
+	var ligne = arrayOfLines[i]; 
+        
+        // S'il ne s'agit pas de la ligne vide
+        if ((ligne.match(/[a-z]/i))!==null){
+    
+            //recuperer 14 premiers caracteres ( la colonne 1 )
+            var col1 = ligne.substring(0,15);
+            
+            // Si la col1 ne contient pas de lettres 
+            if ((col1.match(/[a-z]/i))===null){
+                    //alert("col1 ne contient pas de lettres");
+                    champ_alignvide.textContent = "Incorrect Format";
+                    champ_alignvide.style.color = "red";
+                    IFal = 1;
+                    return true;
+            }        
+            
+            
+            
+            // TEST DE PRESENCE D'ESPACE AU MILIEU DE LA COL1
+            var j;
+            var prev = false;   // si la precedente est espace 
+            for(j=0; j<15; j++){
+                
+                var current = col1[j]; // caractere courant
+               
+               // si precedent est espace et courant est un caractere(pas espace)
+                if(prev && (current!==" ")){ 
+                  //  alert("espace suivi de lettre");
+                    champ_alignvide.textContent = "Incorrect Format";
+                    champ_alignvide.style.color = "red";
+                    IFal = 1;
+                    return true;
+                }
+                
+                if (current === " "){
+                   prev = true;
+                }    
+            }
+       
+        }   
+        //passage a la ligne suivante
 	i++;
     }
 
-//    alert("tout va bien align");
+    // alert("tout va bien align");
     // tout va bien
     return false;
 	
@@ -141,47 +160,49 @@ function format_incorrect_box_pred(){
     var nolignes = arrayOfLines.length; //le nombre de lignes total 
     
     var i=0;
-    
- 
+     
+    //parcourir chaque ligne jusqu'a la fin
     while(i<nolignes){
-	           
-           var ligne = arrayOfLines[i]; // recuperer ligne courante
-	   var cols = ligne.split("\t"); // spliter la ligne          -> TAB OR NOT ?? Des fois ca marche des fois non
-           var col1 = cols[0]; // recuperer la col1
-	  
-
-           // test si longeur >=15
-	   //alert(col1.length);
-	  if (col1.length >= 15){
-		 champ_predvide.textContent = "Incorrect Format";
-           	 champ_predvide.style.color = "red";
-		 return true;
-	  }
         
-        /*
-	// test si col1 contient espace 
-	if (col1.includes(" ")){
-		 champ_predvide.textContent = "Incorrect Format";
-           	 champ_predvide.style.color = "red";
-		 return true;
-	}
-        */
-
-	// test si col1 correspond bien au nom stoke dans arraySeq
-      //  alert("does arrayseq include col1?");
-        //alert(arraySeq.includes(col1));
-	//if(!arraySeq.includes(col1)){
-	//	 champ_predvide.textContent = "Mismatch";
-          // 	 champ_predvide.style.color = "red";
-	//	 return true;
-		
-	//}
-
+        // recuperer ligne courante
+	var ligne = arrayOfLines[i]; 
+        
+      
+        //recuperer 14 premiers caracteres ( la colonne 1 )
+        var col1 = ligne.substring(0,15);
+            
+         // Si la col1 ne contient pas de lettres 
+        if ((col1.match(/[a-z]/i))===null){
+            //alert("col1 ne contient pas de lettres");
+            champ_predvide.textContent = "Incorrect Format";
+            champ_predvide.style.color = "red";
+            IFal = 1;
+            return true;
+        }        
+            
+        var j;
+        var prev = false;   // si la precedente est espace 
+        for(j=0; j<15; j++){
+                
+            var current = col1[j]; // caractere courant
+               
+            // si precedent est espace et courant est un caractere(pas espace)
+            if(prev && (current!==" ")){ 
+            //  alert("espace suivi de lettre");
+                champ_predvide.textContent = "Incorrect Format";
+                champ_predvide.style.color = "red";
+                IFal = 1;
+                return true;
+            }
+                
+            if (current === " "){
+                      prev = true;
+            }    
+        }
+ 
+        //passage a la ligne suivante
 	i++;
-
     }
-    
- //   alert("tout va bien pred");
   
     // tout va bien 
     return false; 
