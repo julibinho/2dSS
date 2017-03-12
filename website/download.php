@@ -41,7 +41,7 @@ $pdf->SetFont('dejavusans', '', 10);
 // add a page
 $pdf->AddPage();
 
-$html = '<div><img src="/tmp/resultat.svg" alt="view 2D alinment" width="1100" height="1000"/></div>';
+$html = '<div><img src="/tmp/resultat.svg" alt="view 2D alinment" width="700" height="1000"/></div>';
 
 // output the HTML content
 $pdf->writeHTML($html, true, false, true, false, '');

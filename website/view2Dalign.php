@@ -60,7 +60,7 @@ if(isset($_POST['separate']))	$separate = " --s";
 if(isset($_POST['size'])){
 	if($_POST['size']>68)	$size .= " -size 68";
 	else{
-		if($_POST['size']<50)	$size .= " -size 50";
+		if($_POST['size']<60)	$size .= " -size 60";
 		else	$size .= " -size ".$_POST['size'];
 	}
 }
