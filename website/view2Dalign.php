@@ -67,7 +67,7 @@ if(isset($_POST['size'])){
 
 echo "<form method='get' action='view2Dalign.html' enctype='multipart/form-data'><center>";
 if(readfile($res = execute($files[0],$files[1],$size, $separate))!=""){
-	echo "<button type='submit' formaction='download2.php'>PDF</button>";
+	echo "<button type='submit' formaction='download.php'>PDF</button>";
 }
 echo "<input type='submit' value='previous'/></center>";
 echo "</form>";
