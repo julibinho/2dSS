@@ -19,7 +19,7 @@ function execute($align, $pred, $size, $separate){
 	//premier resultat
 	$aln = "/tmp/f.txt";
 	//le fichier a afficher
-	$res = "/tmp/resultat.txt";
+	$res = "/tmp/resultat.svg";
 	//execution des scripts
 	exec("python ".$script." -alnFile ".$align." -ssFile ".$pred." -o ".$aln);	
 	exec("python ".$script2." -inputFile ".$aln." -o ".$res.$size.$separate);

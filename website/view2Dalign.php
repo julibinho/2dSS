@@ -48,10 +48,10 @@
             <div class="post_content">
 <?php
 include("v2Dfonctions.php");
+unlink('/tmp/resultat.svg');
 $separate="";
 $size="";
-$file=array();
-//test si 
+
 if(isset($_POST['align']) and isset($_POST['pred']))	$files = createFiles();
 else	if(isset($_FILES['align']) and isset($_FILES['pred']))	$files = array(0 => $_FILES['align']['tmp_name'], 1 => $_FILES['pred']['tmp_name']);
 
@@ -65,14 +65,16 @@ if(isset($_POST['size'])){
 	}
 }
 
-readfile($res = execute($files[0],$files[1],$size, $separate));
-unlink($res);
+echo "<form method='get' action='view2Dalign.html' enctype='multipart/form-data'><center>";
+if(readfile($res = execute($files[0],$files[1],$size, $separate))!=""){
+	echo "<button type='submit' formaction='download2.php'>PDF</button>";
+}
+echo "<input type='submit' value='previous'/></center>";
+echo "</form>";
+
 unset($GLOBALS['_FILES']);
 unset($GLOBALS['_POST']);
 ?> 
-          	<form method="get" action="view2Dalign.html" enctype="multipart/form-data">     
-          	<center><input type="submit" value="previous"/></center>
-          	</form>
           </div> 
           <div class="clr"></div>
         </div>
@@ -89,8 +91,8 @@ unset($GLOBALS['_POST']);
           <div class="clr"></div>
           <ul class="sb_menu">
             <li><a href="view2Dalign.html">View 2d Alignment</a></li>
-            <li><a href="#">Compute 2d Alignment</a></li>
-            <li><a href="#">Compare Predictions</a></li>
+            <li><a href="compute2Dalign.html">Compute 2d Alignment</a></li>
+            <li><a href="comparepred.html">Compare Predictions</a></li>
           </ul>
         </div>
         <div class="gadget">
