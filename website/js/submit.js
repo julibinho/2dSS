@@ -4,213 +4,207 @@ validation.addEventListener('click',f_valid);
 var champ_predvide = document.getElementById("predvide");
 var champ_alignvide = document.getElementById("alignvide");
 
+//var champ_align2vide = document.getElementById("align2vide");
+//var champ_pred2vide = document.getElementById("pred2vide");
+
 //Var global stockant les noms eg d1x9fc_, d1jl7a_ ...
-var arraySeq = []; 
+var setSeq = new Set();
 
-
-// Boolean indiaquant si IncorrectFormat dans contenu de  Box Align (box 1)
-var IFal = 0;
-
-var CMal = 0;
-
-//Fonction principale de validation quand on click sur le bouton submit
+/**
+ * 
+ * @param {type} e : evenement 
+ * Fonction principale bloquant l'envoi des donnees si les formats dans les boites ne sont pas bonnes
+ */
 function f_valid(e){
-    if(content_missing_box_align() ){
-                e.preventDefault();
-    }
-    if (content_missing_box_pred()) {
-        e.preventDefault();
-    }
+	//alert("ici");
     
-    if (format_incorrect_box_align()){
-        e.preventDefault();
-        
-    }
-    
-    if (format_incorrect_box_pred()){
-        e.preventDefault();
-    }
- }
- 
-// Fonction testant si al box 1 est vide  
-function content_missing_box_align(){
-        var align = document.getElementById("align").value;
-        if(align.length < 1 ){
-                   //alert('alignlength <1');
-                  
-            champ_alignvide.textContent = "Contents missing";
-            champ_alignvide.style.color = "red";
-            CMal = 1;
-            return true;
-        }
-        
-        champ_alignvide.textContent="";
-        return false;  
-}
-
-// Fonction testant si la box 2 est vide
-function content_missing_box_pred(){ 
-        var pred = document.getElementById("pred").value;
-        if(pred.length < 1 ){
-                    //alert('pred length <1');
-                    // var champ_predvide = document.getElementById("predvide");
-            champ_predvide.textContent = "Contents missing";
-            champ_predvide.style.color = "red";
-            return true;
-        }
-        
-        champ_predvide.textContent = "";
-        return false;
-              
-}
-
-// Fonction retournant true si le format dans box 1 incorrecte, false sinon
-function format_incorrect_box_align(){
-    
-    // Si la box 1 est vide, retourner faux directement et sortir de la fonction 
-    if (content_missing_box_align()){
-        return false;
-    }
-   
-    var textArea = document.getElementById("align");
-    var arrayOfLines = textArea.value.split("\n");  // les lignes sont stockees dans arrayOfLines
-    var nolignes = arrayOfLines.length; //le nombre de lignes total 
-
-    var i=0;
-    
-    //parcourir chaque ligne jusqu'a la fin
-    while(i<nolignes){
-        
-        // recuperer ligne courante
-	var ligne = arrayOfLines[i]; 
-        
-        // S'il ne s'agit pas de la ligne vide
-        if ((ligne.match(/[a-z]/i))!==null){
-    
-            //recuperer 14 premiers caracteres ( la colonne 1 )
-            var col1 = ligne.substring(0,15);
-            
-            // Si la col1 ne contient pas de lettres 
-            if ((col1.match(/[a-z]/i))===null){
-                    //alert("col1 ne contient pas de lettres");
-                    champ_alignvide.textContent = "Incorrect Format";
-                    champ_alignvide.style.color = "red";
-                    IFal = 1;
-                    return true;
-            }        
-            
-            
-            
-            // TEST DE PRESENCE D'ESPACE AU MILIEU DE LA COL1
-            var j;
-            var prev = false;   // si la precedente est espace 
-            for(j=0; j<15; j++){
-                
-                var current = col1[j]; // caractere courant
-               
-               // si precedent est espace et courant est un caractere(pas espace)
-                if(prev && (current!==" ")){ 
-                  //  alert("espace suivi de lettre");
-                    champ_alignvide.textContent = "Incorrect Format";
-                    champ_alignvide.style.color = "red";
-                    IFal = 1;
-                    return true;
-                }
-                
-                if (current === " "){
-                   prev = true;
-                }    
-            }
+   if (content_missing_box("align") || content_missing_box("pred")){
        
-        }   
-        //passage a la ligne suivante
-	i++;
-    }
-
-    // alert("tout va bien align");
-    // tout va bien
-    return false;
-	
-
-}
-
-
-// Fonction testant si le format dans box 2 incorrecte   
-function format_incorrect_box_pred(){
-
-   
-   // Sortir de cette fonction si la box 2 est vide
-   if (content_missing_box_pred()){
-       return false;
-   }
-   
-   // Sortir de cette fonction si la box 1 est vide
-   if(CMal === 1){
-       return false;
-   }
-   
-   // Sortir de cette fonction si le format de la box 1 est incorrect
-   if (IFal === 1){
-       return false;
-   }
-
-    // Lecture des lignes
-    var textArea = document.getElementById("pred");
-    var arrayOfLines = textArea.value.split("\n"); 
-    var nolignes = arrayOfLines.length; //le nombre de lignes total 
-    
-    var i=0;
+       if(content_missing_box("align")){
+             affiche(champ_alignvide, "Contents Missing");
+             e.preventDefault();
+       }else{
+            champ_alignvide.textContent = "";
+       }
+       
+       if (content_missing_box("pred")){
+             affiche(champ_predvide, "Contents Missing");
+             e.preventDefault();
+       }else{
+            affiche(champ_predvide,"");
+       }
+       
+   }else{
+         if (format_incorrect_align()){
+                 affiche(champ_alignvide,"Incorrect Format");
+                 e.preventDefault();
+        }else{
+            affiche(champ_alignvide,"");
+       
+        
+         if (format_incorrect_pred()){
+             affiche(champ_predvide,"Incorrect Format");
+             e.preventDefault();
+         }else{
+             affiche(champ_predvide,"");
+         }
      
-    //parcourir chaque ligne jusqu'a la fin
-    while(i<nolignes){
-        
-        // recuperer ligne courante
-	var ligne = arrayOfLines[i]; 
-        
-      
-        //recuperer 14 premiers caracteres ( la colonne 1 )
-        var col1 = ligne.substring(0,15);
-            
-         // Si la col1 ne contient pas de lettres 
-        if ((col1.match(/[a-z]/i))===null){
-            //alert("col1 ne contient pas de lettres");
-            champ_predvide.textContent = "Incorrect Format";
-            champ_predvide.style.color = "red";
-            IFal = 1;
-            return true;
-        }        
-            
-        var j;
-        var prev = false;   // si la precedente est espace 
-        for(j=0; j<15; j++){
-                
-            var current = col1[j]; // caractere courant
-               
-            // si precedent est espace et courant est un caractere(pas espace)
-            if(prev && (current!==" ")){ 
-            //  alert("espace suivi de lettre");
-                champ_predvide.textContent = "Incorrect Format";
-                champ_predvide.style.color = "red";
-                IFal = 1;
-                return true;
-            }
-                
-            if (current === " "){
-                      prev = true;
-            }    
         }
- 
-        //passage a la ligne suivante
-	i++;
-    }
-  
-    // tout va bien 
-    return false; 
+   }
+   
+    //e.preventDefault();
+    
 }
 
+/**
+ * 
+ * @param {type} champ
+ * @param {type} message
+ * Affiche un message dans le champ 
+ */
+function affiche(champ,message){
+    champ.textContent = message;
+    champ.style.color = "red";
+}
+/**
+ * 
+ * @param {type} id de la boite
+ * @returns {Boolean} True si la boite est vide, False sinon
+ */
+function content_missing_box(id){
+    var a = document.getElementById(id).value;
+    if ((a.length) < 1){
+        return true;
+    }
+    return false;
+}
 
+/**
+ * 
+ * @param {type} arrStr tableau contenant de strings
+ * @returns {Boolean} True s'il n'y a que deux colonnes contenant des caracteres, False sinon
+ * 
+ *  Cette fonction est utilisee pour verifier qu'il n'y a que deux colonnes dans le text de la boite align
+ */
+function test_only_2_columns(arrStr){
+	var i;
+	var cpt=0;
+	for(i=0; i< arrStr.length; i++ ){
+		if( (arrStr[i].match(/^[a-z0-9_-]+$/i)) !==null){
+			cpt++;
+		}
+		if (cpt > 2){
+			return false;
+		}	
+	}
+	return true;
+}
+/**
+ * 
+ * @param {type} arrStr tableau de strings
+ * @returns {Array|col1_col2.col1col2} Le tableau contenant que les elements caracteres de arrStr
+ * Le tableau est sous la forme des deux colonnes d'une ligne dans le texte de la boite align
+ */
+function col1_col2(arrStr){
+    var col1col2 = [];
+    var i;
+    for(i=0; i< arrStr.length; i++ ){
+        if( (arrStr[i].match(/^[a-z0-9_-]+$/i)) !==null){
+            col1col2.push(arrStr[i]);
+        }
+    }
+    
+    return col1col2;
+}
 
+/**
+ * 
+ * @returns True si le format du texte dans la boite align est incorrecte, False sinon
+ * Cette fonction verifie le format du texte dans la boite align
+ */
+function format_incorrect_align(){
 
+    setSeq = new Set();
 
+    var textArea = document.getElementById("align").value;
+    var arrayOfLines = textArea.split("\n");
+    var noOfLines = arrayOfLines.length; // Nb de lignes dans le texte
+   
+    var i = 0;
+    var line = arrayOfLines[i];
+    
+	
+    // Premier passage -> Recuperer les noms des sequences
+   while( (i<noOfLines) && ((line.match(/[a-z]/i))!==null) ){ // Tester pas encore arrive a fin et
+                                                              // que premiere ligne vide pas encore rencontree
+        var colsOfLine = line.split(" ");
 
+        if(!test_only_2_columns(colsOfLine)){ // Tester s'il n'y a que deux colonnes
+            return true;
+        }
+        
+        var col1col2 = col1_col2(colsOfLine);
+        var col1 = col1col2[0];
+        var col2 = col1col2[1];
 
+        setSeq.add(col1); // Stockage des noms des sequences
+        i++;
+        line = arrayOfLines[i];  
+
+    }
+
+    // Passage sur reste des lignes
+    while (i < noOfLines){
+        
+        line = arrayOfLines[i];
+        
+        if ((line.match(/[a-z]/i))!==null){ // Si pa la ligne vide
+             colsOfLine = line.split(" ");
+             
+            if(!test_only_2_columns(colsOfLine)){ // Tester que deux colonnes 
+                 return true;
+            }
+		
+	    col1col2 = col1_col2(colsOfLine);            
+            col1 = col1col2[0];
+            
+            
+            col2 = col1col2[1]; // TODO tester contenu de deuxieme colonne
+            
+            if (!setSeq.has(col1)){
+                return true;
+            }     
+        }   
+        i++;     
+    }
+    return false;   
+}
+
+/**
+ * 
+ * @returns {Boolean}  True si le format du texte dans la boite pred est incorrecte, False sinon
+ */
+
+function format_incorrect_pred(){
+    
+    var textArea = document.getElementById("pred").value;
+    var arrayOfLines = textArea.split("\n");
+    var noOfLines = arrayOfLines.length;
+    
+    var i=0; 
+    while( i < noOfLines ){         // Tant que pas arrive a la fin
+        var line = arrayOfLines[i];
+        
+        var colsOfLine = line.split("\t"); 
+        var col1 = colsOfLine[0];
+        
+        if(!setSeq.has(col1)){      // Tester si la sequence est bien dans var global setSeq
+            //alert("pred pas bon incohrerence");
+            return true;
+        }
+        
+        i++;         
+    }
+    
+    return false;
+}
