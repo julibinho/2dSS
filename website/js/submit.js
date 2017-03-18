@@ -139,7 +139,7 @@ function format_incorrect_align(){
                                                               // que premiere ligne vide pas encore rencontree
         var colsOfLine = line.split(" ");
 
-        if(!test_only_2_columns(colsOfLine)){ // Tester s'il n'y a que deux colonnes
+        if(!test_only_2_columns(colsOfLine)){ // Tester s'il y a plus que deux colonnes 
             return true;
         }
         
@@ -147,13 +147,17 @@ function format_incorrect_align(){
         var col1 = col1col2[0];
         var col2 = col1col2[1];
 
+	if( (col2.match(/^[a-z-]+$/i)) === null ){ // Tester si il y a autre que ABC..Z et -
+		return true;
+	}
+
         setSeq.add(col1); // Stockage des noms des sequences
         i++;
         line = arrayOfLines[i];  
 
     }
 
-    // Passage sur reste des lignes
+    // Passage sur reste des lignes -> Voir si les noms des sequences matchent 
     while (i < noOfLines){
         
         line = arrayOfLines[i];
@@ -161,19 +165,22 @@ function format_incorrect_align(){
         if ((line.match(/[a-z]/i))!==null){ // Si pa la ligne vide
              colsOfLine = line.split(" ");
              
-            if(!test_only_2_columns(colsOfLine)){ // Tester que deux colonnes 
+            if(!test_only_2_columns(colsOfLine)){ // Tester s'il y a plus que deux colonnes 
                  return true;
             }
 		
 	    col1col2 = col1_col2(colsOfLine);            
             col1 = col1col2[0];
+            col2 = col1col2[1]; 
             
-            
-            col2 = col1col2[1]; // TODO tester contenu de deuxieme colonne
-            
-            if (!setSeq.has(col1)){
+            if (!setSeq.has(col1)){ // Tester s'il n'y a pas la coherence/ les sequences ne repetent pas
                 return true;
-            }     
+            }
+
+	    if( (col2.match(/^[a-z-]+$/i)) === null ){ // Tester si il y a autre que ABC..Z et -
+		return true;
+	    }
+     
         }   
         i++;     
     }
@@ -196,12 +203,25 @@ function format_incorrect_pred(){
         var line = arrayOfLines[i];
         
         var colsOfLine = line.split("\t"); 
+
+	if (colsOfLine.length !== 2){ // Tester s'il y a plus que deux colonnes 
+		return true;
+	}
+
         var col1 = colsOfLine[0];
-        
-        if(!setSeq.has(col1)){      // Tester si la sequence est bien dans var global setSeq
-            //alert("pred pas bon incohrerence");
+	var col2 =colsOfLine[1];
+	
+        if(!setSeq.has(col1)){      // Tester si la sequence n'est pas dans var global setSeq
             return true;
         }
+	
+	if (col2.includes(" ")){    // Tester si la col2 contient des espaces
+		return true;
+	}
+
+	if( (col2.match(/^[che]+$/i)) === null ){  // Tester si col2 contient autre que des C,H et E
+		return true;
+	}
         
         i++;         
     }
