@@ -47,33 +47,8 @@
           <div class="clr"></div>
             <div class="post_content">
 <?php
-include("v2Dfonctions.php");
-unlink('/tmp/resultat.svg');
-$separate="";
-$size="";
-
-if(isset($_POST['align']) and isset($_POST['pred']))	$files = createFiles();
-else	if(isset($_FILES['align']) and isset($_FILES['pred']))	$files = array(0 => $_FILES['align']['tmp_name'], 1 => $_FILES['pred']['tmp_name']);
-
-if(isset($_POST['separate']))	$separate = " --s";
-
-if(isset($_POST['size'])){
-	if($_POST['size']>68)	$size .= " -size 68";
-	else{
-		if($_POST['size']<60)	$size .= " -size 60";
-		else	$size .= " -size ".$_POST['size'];
-	}
-}
-
-echo "<form method='get' action='view2Dalign.html' enctype='multipart/form-data'><center>";
-if(readfile($res = execute($files[0],$files[1],$size, $separate))!=""){
-	echo "<button type='submit' formaction='download.php'>PDF</button>";
-}
-echo "<input type='submit' value='previous'/></center>";
-echo "</form>";
-
-unset($GLOBALS['_FILES']);
-unset($GLOBALS['_POST']);
+include('v2Dfonctions.php');
+testAndDisplay();
 ?> 
           </div> 
           <div class="clr"></div>
