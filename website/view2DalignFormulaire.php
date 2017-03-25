@@ -28,6 +28,7 @@
         <h1><a href="index.html">2d<span>SS</span> <small>secondary structure visualization</small></a></h1>
       </div>
       <div class="clr"></div>
+     
       <div class="clr"></div>
     </div>
   </div>
@@ -47,9 +48,9 @@
           <div class="clr"></div>
             <div class="post_content">
 <?php
-include('v2Dfonctions.php');
-testValidite();
-?> 
+include("v2Dfonctions.php");
+formulaire();
+?>
           </div> 
           <div class="clr"></div>
         </div>
@@ -65,7 +66,7 @@ testValidite();
           <h2 class="star">Menu</h2>
           <div class="clr"></div>
           <ul class="sb_menu">
-            <li><a href="view2DalignFormulaire.php">View 2d Alignment</a></li>
+            <li><a href="view2Dalign.html">View 2d Alignment</a></li>
             <li><a href="compute2Dalign.html">Compute 2d Alignment</a></li>
             <li><a href="comparepred.html">Compare Predictions</a></li>
           </ul>
@@ -114,3 +115,4 @@ testValidite();
 </div>
 </body>
 </html>
+

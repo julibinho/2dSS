@@ -16,42 +16,38 @@ var setSeq = new Set();
  * Fonction principale bloquant l'envoi des donnees si les formats dans les boites ne sont pas bonnes
  */
 function f_valid(e){
-	//alert("ici");
-    
-   if (content_missing_box("align") || content_missing_box("pred")){
-       
-       if(content_missing_box("align")){
-             affiche(champ_alignvide, "Contents Missing");
-             e.preventDefault();
-       }else{
-            champ_alignvide.textContent = "";
-       }
-       
-       if (content_missing_box("pred")){
-             affiche(champ_predvide, "Contents Missing");
-             e.preventDefault();
-       }else{
-            affiche(champ_predvide,"");
-       }
-       
-   }else{
-         if (format_incorrect_align()){
-                 affiche(champ_alignvide,"Incorrect Format");
-                 e.preventDefault();
-        }else{
-            affiche(champ_alignvide,"");
-       
-        
-         if (format_incorrect_pred()){
-             affiche(champ_predvide,"Incorrect Format");
-             e.preventDefault();
-         }else{
-             affiche(champ_predvide,"");
-         }
-     
-        }
-   }
-   
+	if ((content_missing_box("alignFile") && content_missing_box("predFile")) || (content_missing_box("alignFile")) || (content_missing_box("predFile")) ){
+   		if(content_missing_box("align") || content_missing_box("pred")){
+	        	if(content_missing_box("align")){
+		        	affiche(champ_alignvide, "Contents Missing");
+		    		e.preventDefault();
+	       		}else{
+		    		champ_alignvide.textContent = "";
+	       		}
+	       
+	       		if (content_missing_box("pred")){
+			     	affiche(champ_predvide, "Contents Missing");
+		     		e.preventDefault();
+	       		}else{
+		    		affiche(champ_predvide,"");
+	       		}
+       		}else{
+			if (format_incorrect_align()){
+		        	affiche(champ_alignvide,"Incorrect Format");
+		        	e.preventDefault();
+			}else{
+		    		affiche(champ_alignvide,"");
+       			}
+	
+			if (format_incorrect_pred()){
+	     			affiche(champ_predvide,"Incorrect Format");
+	    		 	e.preventDefault();
+			}else{
+	     			affiche(champ_predvide,"");
+	 		}
+	     	}
+	}
+	   
     //e.preventDefault();
     
 }
