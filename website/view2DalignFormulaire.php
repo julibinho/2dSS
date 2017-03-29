@@ -66,7 +66,7 @@ formulaire();
           <h2 class="star">Menu</h2>
           <div class="clr"></div>
           <ul class="sb_menu">
-            <li><a href="view2Dalign.html">View 2d Alignment</a></li>
+            <li><a href="view2DalignFormulaire.php">View 2d Alignment</a></li>
             <li><a href="compute2Dalign.html">Compute 2d Alignment</a></li>
             <li><a href="comparepred.html">Compare Predictions</a></li>
           </ul>
