@@ -57,9 +57,9 @@ def convertFile(fileInput, fileOutput):
 
 ######################################################################################################################################
 def readArgs(args):
-	"""Function that reads the arguments in command line to execute the covertali2D.py script correctly
+	"""Function that reads the arguments in command line to execute the convertali2D.py script correctly
 	   The correct format is : 'python convertali2D.py <inputfile> <outputfile>'
-	   Prints 'DONE!' if script executed correctly
+	   Prints 'DONE !' if script executed correctly
 	   Prints appropriate Error Message otherwise
 
 	   Args:
