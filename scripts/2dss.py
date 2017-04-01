@@ -6,42 +6,32 @@ outputFile = ""
 separate = False
 COLOR_TEXT = "black"
 html = False
+typeProg=1 # 1 for 2dalignment; 2 for compare predictions
+x = 5;              yBase = 45;     yHigh = 35;   yLow = 55;  yHighCORRECTION = 5; 
+sizeAln= 50;        typeShw = 3;    yHighPosCORRECTION = 10;
 
 #Constantes
 COL_ID = 0;     COL_ALN = 1;    COL_2SS = 2;
 
 
-SYTYLE_HELIX = "style='fill:none;stroke:black;stroke-width:1'"
+SYTYLE_HELIX = "style='fill:transparent;stroke:black;stroke-width:2'"
 STYLE_SHEET_END = "style='fill:yellow;stroke:black;stroke-width:2'"
 STYLE_SHEET = "style='fill:yellow;stroke:black;stroke-width:2'"
 STYLE_REC_HIGH = "style='stroke:#009900;stroke-width: 1;stroke-dasharray: 10 5;fill: none;'"
 STYLE_TEXT = "style='font-weight: bold;'"
+#STYLE_LOOP = "style='stroke:black;stroke-width:2'"
+STYLE_LOOP = "style='stroke:rgb(255,0,0);stroke-width:2'"
 
 aa_classes = {
 'I': 'DarkBlue', 'V': 'DarkBlue','L': 'DarkBlue', 'F': 'DarkBlue', 'M': 'DarkBlue',
-'A': 'DarkBlue', 'W': 'DarkBlue',
-'C': 'DarkSalmon',
-    'G': 'Orange',
-    'T': 'green',
-    'S': 'green',
-    'Y': 'LightSeaGreen ',
-    'P': 'DarkGoldenRod',
-    'H': 'LightSeaGreen ',
-    'N': 'green',
-    'D': 'DarkOrchid',
-    'Q': 'green',
-    'E': 'DarkOrchid',
-    'K': 'red',
-    'R': 'red',
-    'X': 'black',
-    '-': 'black'
+'A': 'DarkBlue', 'W': 'DarkBlue', 'C': 'DarkSalmon', 'G': 'Orange', 'T': 'green',
+'S': 'green', 'Y': 'LightSeaGreen ', 'P': 'DarkGoldenRod', 'H': 'LightSeaGreen ',
+'N': 'green', 'D': 'DarkOrchid', 'Q': 'green', 'E': 'DarkOrchid', 'K': 'red',
+'R': 'red', 'X': 'black', '-': 'black'
 }
 
 H_HIGHLIGHT = 15
-
-STYLE_LOOP = "style='stroke:rgb(255,0,0);stroke-width:2'"
-
-Y_TRIANGULE_CORRECTION = 3.5
+Y_TRIANGULE_CORRECTION = 4
 X_TEXT_CORRECTION = 135
 W_SHEET = 8
 JUMP_SIZE = 8
@@ -51,12 +41,13 @@ JUMP_SIZE = 8
 # Usage
 usage = "python 2dss.py [options] -inputFile f1 -outputFile f2\n"
 usage += "where basic options are:\n-h : show brief help on version and usage\n"
-usage += "-amount_aminoacid <x> : x is the amount of amino acids to show (default 100)\n"
-
+usage += "-size <x> : x is the alignment length (default 50)\n"
+usage += "--separate : show sequences and secondary structure separately (defaut False) \n"
+usage += "--html : save the otput file in a HTML format otherwise save it in a svg format (defaut False) \n"
 
 ### Read parameters
 def readParameters(args):
-    global inputFile, outputFile, sizeAln, separate
+    global inputFile, outputFile, sizeAln, separate, html, typeProg
 
     for i in range(1, len(args)):
         if args[i] == "-inputFile" or args[i] == "-i":
@@ -69,6 +60,10 @@ def readParameters(args):
             print usage
         elif args[i] == "--separate" or args[i] == "--s":
             separate = True
+        elif args[i] == "--html" or args[i] == "--ht":
+            html = True
+        elif args[i] == "-typeProg" or args[i] == "-t":
+            typeProg = int(args[i + 1])
 
 #######################################################################
 ### Check parameters
@@ -86,14 +81,14 @@ def checkParameters():
 
 #######################################################################
 ###
-def represent2DSS(x, yBase, yHigh, seqID, structure, aligSequence, start, end, firstSeq):
+def represent2DSS(x, yBase, yHigh, yLow, seqID, structure, aligSequence, start, end, firstSeq):
     seqPosSVG = ""
     seqIDSVG = representText(x, yBase, seqID);
     structure = structure[start:end]
     sequence = aligSequence[start:end]
     if (firstSeq): seqPosSVG = representAAPositions(x + X_TEXT_CORRECTION, yHigh - yHighPosCORRECTION, start, end, structure)
     sequenceSVG = representAAsequence(x + X_TEXT_CORRECTION, yHigh, sequence)
-    seq2DSSSVG = represent2DObjects(x + X_TEXT_CORRECTION, yBase, yHigh, structure);
+    seq2DSSSVG = represent2DObjects(x + X_TEXT_CORRECTION, yBase, yHigh, yLow, structure);
     return seqPosSVG + seqIDSVG + sequenceSVG + seq2DSSSVG;
 
 #######################################################################
@@ -135,7 +130,7 @@ def representAAPositions(x, y, start, end, aaSeq):
 
 #######################################################################
 ###
-def represent2DObjects(xStart, yBase, yHigh, seq2DSS):
+def represent2DObjects(xStart, yBase, yHigh, yLow, seq2DSS):
   
     yBase2=0
 
@@ -150,7 +145,9 @@ def represent2DObjects(xStart, yBase, yHigh, seq2DSS):
                 count = count + 1;
                 i = i + 1
 
-            (x, infoL) = createHelix(x, yBase-yBase2*2 + Y_TRIANGULE_CORRECTION, yHigh, count)
+            #(x, infoL) = createHelix(x, yBase-yBase2*2 + Y_TRIANGULE_CORRECTION, yHigh, count)
+            #print (x, yBase, yHigh, yLow, count)
+            (x, infoL) = createHelixPath(x, yBase, yHigh, yLow, count)
             info = info + infoL + "\n"
             count = 0
         # beta sheeting
@@ -241,6 +238,41 @@ def createHelix(xStart, yBase, yHigh, sizeH):
     info = info + points + "' " + SYTYLE_HELIX + "/>"
     return (x, info)
 
+
+#######################################################################
+def createHelixPath(xStart, yBase, yHigh, yLow, sizeH):
+    """
+        Permet de creer le style graphique des helices alpha
+    """
+    global JUMP_SIZE, SYTYLE_HELIX
+    info = ""
+    points = ""
+    x = xStart
+    JUMP_SIZE_H = JUMP_SIZE / 3.0
+    yBase += Y_TRIANGULE_CORRECTION
+    yHigh += Y_TRIANGULE_CORRECTION
+    yLow += Y_TRIANGULE_CORRECTION
+    for i in range(0, sizeH):
+    	if i%2==0:
+    		points += "<path d='M" + str(x) + " " + str(yBase) + " " 
+    		x += JUMP_SIZE_H
+    		points += "C " + str(x) + " " + str(yHigh) + ", " 
+    		x += JUMP_SIZE_H
+    		points +=  str(x) + " " + str(yHigh) + ", " 
+    		x += JUMP_SIZE_H
+    		points +=  str(x) + " " + str(yBase) + "' " 
+    		points += SYTYLE_HELIX + "/>\n"
+    	else:
+    		points += "<path d='M" + str(x) + " " + str(yBase) + " " 
+    		x += JUMP_SIZE_H
+    		points += "C " + str(x) + " " + str(yLow) + ", " 
+    		x += JUMP_SIZE_H
+    		points +=  str(x) + " " + str(yLow) + ", " 
+    		x += JUMP_SIZE_H
+    		points +=  str(x) + " " + str(yBase) + "' " 
+    		points += SYTYLE_HELIX + "'/>\n"	
+    return (x, points)
+
 #######################################################################
 def readFile(inputFile):
     
@@ -255,23 +287,24 @@ def readFile(inputFile):
     return matrix
 
 #######################################################################
-def showAlig(data, i, x, yBase, yHigh, typeShw, start, end, firstSeq):
+def showAlig(data, i, x, yBase, yHigh, yLow, typeShw, start, end, firstSeq, CORRECTION, COL_ID, COL_2SS, COL_ALN):
     info = ""
     for i in range(len(data)):
         seqID = data[i][COL_ID]; structure= data[i][COL_2SS]; aligSeq= data[i][COL_ALN];
         if (typeShw == 1 ): aligSeq = '';
         elif (typeShw == 2): structure = '';
-        info += represent2DSS(x, yBase, yHigh, seqID, structure, aligSeq, start, end, firstSeq)
+        info += represent2DSS(x, yBase, yHigh, yLow, seqID, structure, aligSeq, start, end, firstSeq)
         if (firstSeq): firstSeq = False
         yBase += CORRECTION
         yHigh += CORRECTION
+        yLow += CORRECTION
     return info
 
 
 #######################################################################
 def saveFile (info, larg, long):
     htmlHead = ""; htmlTail = ""
-    head = "<svg width='{largeur}px' height='{nbl}px'>\n".format(nbl=larg, largeur=long)
+    head = "<svg width='{largeur}px' height='{nbl}px'>\n".format(nbl=long, largeur=larg)
     tail = "\n</svg>\n"
     if (html == True):
         htmlHead = "<html><body>\n"; htmlTail="</body></html>"
@@ -279,39 +312,76 @@ def saveFile (info, larg, long):
         f.write(htmlHead + head + info + tail + htmlTail)
 
 #######################################################################
+def show2dAlignment(inputFile, x, yBase, yHigh, yLow, separate):  
+	it = 0; info = ""
+	if (separate): CORRECTION = 20; 
+	else: CORRECTION = 30; yHighCORRECTION = 30; 
+   
+	data = readFile(inputFile)
+	sizeAlnFile = len(data[0][COL_ALN]) #take the alignment length
+
+	runs = int(sizeAlnFile/sizeAln)
+	if (sizeAlnFile % sizeAln >=1):
+		runs +=1;
+	start = 0;  end = sizeAln
+
+	while (it < runs):
+		if (separate):
+			info = info + showAlig(data, it, x, yBase, yHigh, yLow, 1, start, end, True, CORRECTION, COL_ID, COL_2SS, COL_ALN)
+			yBase += CORRECTION *len(data) + 30
+			yHigh += CORRECTION *len(data) + 30
+			yLow  += CORRECTION *len(data) + 30
+			info = info + showAlig(data, it, x, yBase, yHigh, yLow, 2, start, end, False, CORRECTION, COL_ID, COL_2SS, COL_ALN)
+		else:
+			info = info + showAlig(data, it, x, yBase, yHigh, yLow, 3, start, end, True, CORRECTION, COL_ID, COL_2SS, COL_ALN)
+		start = end; 
+		end = end + sizeAln
+		it= it + 1
+		yBase += CORRECTION *len(data) + 30
+		yHigh += CORRECTION *len(data) + 30
+		yLow += CORRECTION *len(data) + 30
+	saveFile(info , sizeAln*12,  yBase)
+
+#######################################################################
+def comparePred(inputFile, x, yBase, yHigh, yLow):  
+	it = 0; info = ""; CORRECTION = 30;
+	data = readFile(inputFile)
+	sizeAlnFile = len(data[0][1]) #take the alignment length
+	
+	runs = int(sizeAlnFile/sizeAln)
+	if (sizeAlnFile % sizeAln >=1):
+		runs +=1;
+	
+	start = 0;  end = sizeAln
+	while (it < runs):
+		for j in range(len(data)):
+			if j == 0:
+				info += represent2DSS(x, yBase, yHigh, yLow,  data[j][0], "", data[j][1], start, end, True)	
+			else:
+				info += represent2DSS(x, yBase, yHigh, yLow, data[j][0],  data[j][1], "", start, end, False)
+			yBase += CORRECTION
+			yHigh += CORRECTION
+			yLow  += CORRECTION 
+		start = end; 
+		end = end + sizeAln
+		it= it + 1
+		yBase += CORRECTION  + 30
+		yHigh += CORRECTION  + 30
+		yLow += CORRECTION  + 30
+	saveFile(info , sizeAln*12,  yBase)
+	
+#######################################################################	
 ### Main
-it = 0;             info = ""
-x = 5;              yBase = 45;     yHigh = 40;     yHighCORRECTION = 5; 
-sizeAln= 50;        typeShw = 3;    yHighPosCORRECTION = 10;
+
 
 readParameters(sys.argv)
 checkParameters()
 
-if (separate): CORRECTION = 15; 
-else: CORRECTION = 30; yHighCORRECTION = 30; 
-   
-data = readFile(inputFile)
-sizeAlnFile = len(data[0][COL_ALN]) #take the alignment length
 
+if (typeProg==1):
+	show2dAlignment(inputFile, x, yBase, yHigh,yLow, separate)
+elif (typeProg==2):
+	comparePred(inputFile, x, yBase, yHigh, yLow)
 
-runs = int(sizeAlnFile/sizeAln)
-#runs = 1
-start = 0;  end = sizeAln
-
-while (it < runs):
-    if (separate):
-        info = info + showAlig(data, it, x, yBase, yHigh, 1, start, end, True)
-        print (x)
-        yBase += CORRECTION *len(data) + 30
-        yHigh += CORRECTION *len(data) + 30
-        info = info + showAlig(data, it, x, yBase, yHigh, 2, start, end, False)
-    else:
-        info = info + showAlig(data, it, x, yBase, yHigh, 3, start, end, True)
-    start= end; end = end + sizeAln
-    it= it + 1
-    yBase += CORRECTION *len(data) + 30
-    yHigh += CORRECTION *len(data) + 30
-
-saveFile(info, 1000, 1000)
 print ("Done!")
 sys.exit(0)
