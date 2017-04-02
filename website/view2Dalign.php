@@ -48,6 +48,8 @@
             <div class="post_content">
 <?php
 include('v2Dfonctions.php');
+include('variableDAmbiance.php');
+unlink(RESULTAT);
 testValidite();
 ?> 
           </div> 

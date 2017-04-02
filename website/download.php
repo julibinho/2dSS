@@ -1,6 +1,7 @@
 <?php
 // Include the main TCPDF library (search for installation path).
 require_once('tcpdf/examples/tcpdf_include.php');
+require_once('variableDAmbiance.php');
 
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -40,9 +41,7 @@ $pdf->SetFont('dejavusans', '', 10);
 
 // add a page
 $pdf->AddPage();
-
-$html = '<div><img src="/tmp/resultat.svg" alt="view 2D alinment" width="700" height="1000"/></div>';
-
+$html = '<div><img src="'.RESULTAT.'" alt="view 2D alinment" width="700" height="1000"/></div>';
 // output the HTML content
 $pdf->writeHTML($html, true, false, true, false, '');
 // reset pointer to the last page
