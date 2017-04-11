@@ -5,18 +5,12 @@ import sys
 # USE: "python convertquick2D.py <inputfile> <outputfile>"
 
 ######################################################################################################################################
-
 def replaceSpace(string, letter):
-	""" Function that replaces spaces in string by letter
-
-	    Args : 
-		  string (str) : string input
-		  letter (char): letter by which spaces have to be replaced
-
-	    Returns:
-		  (str) : new string with spaces replaced
+	""" Fills in spaces in a string by a letter
+	    @param {string} string : The original string
+	    @param {char} letter: The letter to insert
+	    @returns: {string} : The new string with spaces replaced by letter 
 	"""
-
 	res = ""
 	for c in string:
 		if (c==' '):
@@ -29,25 +23,26 @@ def replaceSpace(string, letter):
 
 ######################################################################################################################################
 def convertFile(fileInput, fileOutput):
-	"""Function that converts quick2D.input file to quick2D.output format 
-	   Prints error message if input file not found
-	   
-	   Args:
-		fileInput (filepath) : the file in quick2D.input format to be converted
-		fileOutput(filepath) : the output file
+	""" Converts input file in quick2D.input format to quick2D.output format
+	    @param {filepath} fileInput : Filepath of quick2D.input file
+	    @param {filepath} fileOutput: Filepath of quick2D.output file
 	"""
-
 	try:
 		f = open(fileInput, "r")
 		
 	except 	IOError:
-		print "Error: File not found : ", fileInput
+		print "Error: File not found"
 		sys.exit(1)
-
+	
 	lines = f.readlines()
 	f.close()
 	
-	g = open(fileOutput, "w")
+
+	query=""
+	psipred=""
+	jnet=""
+	profcOuali=""
+	profcRost=""
 	
 	for i in range (0, len(lines)):
 		x = i % 17		
@@ -56,52 +51,40 @@ def convertFile(fileInput, fileOutput):
 
 		s2 = lines[i]
 		s = s2[17: lengthline-1]
-		
+
 		if x == 0:
-			g.write("QUERY        ")
-			
-			g.write(s)
-			g.write("\n")
+			query+= s
 						
 		if (x==1) or (x==3) or (x==5) or (x==7):
 			new_s =  replaceSpace(s,'C')		
 
 			if x== 1:
-				g.write("PSIPRED      ")
+				psipred+= new_s
 			
 			if x== 3:
-				g.write("JNET         ")
+				jnet+= new_s
 			
 			if x== 5:
-				g.write("PROFC(Ouali) ")
+				profcOuali+= new_s
 		
 			if x== 7:
-				g.write("PROFC(Rost)  ")
-			
-			g.write(new_s)
-			g.write("\n")	
-
-		
-		if i % 17 == 16:
-			for j in range (0,3):
-				g.write("\n")	
-
+				profcRost+= new_s
+	
+	g = open(fileOutput, "w")
+	g.write("QUERY\t"+query+"\n"+"PSIPRED\t"+psipred+"\n"+"JNET\t"+jnet+"\n"+"PROFC(Ouali)\t"+profcOuali+"\n"+"PROFC(Rost)\t"+profcRost+"\n")
+	
 	g.close()
 
 
 
 ######################################################################################################################################
 def readArgs(args):
-	"""Function that reads the arguments in command line to execute the convertquick2D.py script correctly
-	   The correct format is : 'python convertquick2D.py <inputfile> <outputfile>'
-	   Prints 'DONE !' if script executed correctly
-	   Prints appropriate Error Message otherwise
+	""" Principal function which reads the arguments on command line and executes the convertali2D.py script (conversion)
+ 	    Prints 'DONE !' if script executed correctly
+	    Prints appropriate Error Message otherwise
 
-	   Args:
-		args (str) : the string input on the command line
+	    @param {string} args : Input on command line
 	"""
-
-
 	if len(args)!= 3 :
 		print "ERROR:: Parameters quick2D inputFile and outputFile required\n"
 		sys.exit(1)

@@ -6,12 +6,9 @@ import sys
 
 ######################################################################################################################################
 def convertFile(fileInput, fileOutput):
-	"""Function that converts ali2D.input file to ali2D.output format 
-	   Prints error message if input file not found
-	   
-	   Args:
-		fileInput (filepath) : the file in ali2D.input format to be converted
-		fileOutput(filepath) : the output file
+	"""Converts input file in quick2D.input format to quick2D.output format
+	    @param {filepath} fileInput : Filepath of ali2D.input file
+	    @param {filepath} fileOutput: Filepath of ali2D.output file
 	"""
 
 	try:
@@ -57,13 +54,11 @@ def convertFile(fileInput, fileOutput):
 
 ######################################################################################################################################
 def readArgs(args):
-	"""Function that reads the arguments in command line to execute the convertali2D.py script correctly
-	   The correct format is : 'python convertali2D.py <inputfile> <outputfile>'
-	   Prints 'DONE !' if script executed correctly
-	   Prints appropriate Error Message otherwise
+	"""Principal function which reads the arguments on command line and executes the convertali2D.py script (conversion)
+ 	    Prints 'DONE !' if script executed correctly
+	    Prints appropriate Error Message otherwise
 
-	   Args:
-		args (str) : the string input on the command line
+	    @param {string} args : Input on command line
 	"""
 
 
