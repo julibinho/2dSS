@@ -1,6 +1,11 @@
 <?php
-//ecrit le formulaire a remplir pour avoir view2Dalignement
 function formulaire(){
+	/*
+	"""
+		Creer le formulaire de ViewAlignement2D 
+	"""
+	*/
+	
 	return '<form method="post" action="view2Dalign.php" enctype="multipart/form-data">
 		<!-- Boite pour mettre sequence-->
 
@@ -43,8 +48,13 @@ function formulaire(){
 	      <script type="text/javascript" src="js/submit.js"></script>';
 }
 
-//creation des fichiers alignements de proteines et prediction 2D de celles ci
 function createFiles(){
+	/*
+	"""
+	creation des fichiers alignements de proteines et prediction 2D de celles ci
+	"""
+	*/
+	
 	$f = fopen(ALIGN, 'a+');
 	$f2 = fopen(PRED, 'a+');
 	fwrite($f, $_POST['align']);
@@ -54,8 +64,16 @@ function createFiles(){
 	return array(0=>ALIGN,1=>PRED);
 }
 
-//execution et renvois du resultat c'est a dire le fichier de l'alignement 2D
 function execute($files, $size, $separate){
+	/*
+	"""
+	execution et creation du resultat dans le fichier donne par la variable RESULTAT de visualisation l'alignement 2D
+	@param {array} files : contient les fichiers utiliser lors du premier traitement c'est a dire soit le fichier d'alignement et le fichier de prediction soit le fichier d'alignement 2D
+	@param {string} size : contient une dimension particuliere pour la largeur de la visualisation peut etre vide
+	@param {string} separate : option permettant de savoir si l'alignement doit etre separer de sa prediction peut etre vide
+	"""
+	*/
+	
 	//execution des scripts
 	if(count($files)==2){
 		exec("python ".SCRIPT_2DSSTOALN." -alnFile ".$files[0]." -ssFile ".$files[1]." -o ".PREMIER_RESULTAT);
@@ -68,14 +86,19 @@ function execute($files, $size, $separate){
 	unlink(PRED);
 }
 
-//Utiliser pour tester si $_FILES est vide
-function array_empty($tab){
+function array_empty(){
+	/*
+	"""
+	Permet de savoir dans quel cas utiliser les informations contenu dans les textarea dans les files leurs correspondant ou bien dans le fichier recuperer du site web ????
+	"""
+	*/
+	
 	$cpt = 0;
-	if($tab["alignFile"]["size"] == 0)	$cpt++;
-	if($tab["predFile"]["size"] == 0)	$cpt++;
-	if($tab["ali2D"]["size"] == 0 && $cpt==2)	return $cpt;
+	if($FILES["alignFile"]["size"] == 0)	$cpt++;
+	if($FILES["predFile"]["size"] == 0)	$cpt++;
+	if($FILES["ali2D"]["size"] == 0 && $cpt==2)	return $cpt;
 	else{
-		if($tab["ali2D"]["size"] != 0)	return 3;
+		if($FILES["ali2D"]["size"] != 0)	return 3;
 		else {
 			if($cpt==1)	return 2;
 			else return 1;
@@ -83,11 +106,16 @@ function array_empty($tab){
 	}
 }
 
-//test les champs et decide lesquels des textarea ou des fichiers vont etre utiliser pour generer le view2DAlignement
 function testValidite(){
-	if(array_empty($_FILES) == 3)	Display("ali2D");
+	/*
+	"""
+	Test les champs et decide lesquels des textarea, des fichiers leur correspondant ou bien le fichier recuperer du site web ??? vont etre utiliser pour generer le view2DAlignement
+	"""
+	*/
+	
+	if(array_empty() == 3)	Display("ali2D");
 	else{
-		if(array_empty($_FILES) == 2){
+		if(array_empty() == 2){
 			Display("textarea");
 		}
 		else{
@@ -100,6 +128,14 @@ function testValidite(){
 
 //test et affichage du resultat
 function Display($text){
+	/*
+	"""
+	Permet l'affichage de la visualisation de l'alignement 2D dans les trois cas.
+	Si jamais on utilise les fichiers une verification est operer si jamais on utilise les textarea la verification a ete faite dans le submit.js et enfin si on utilise le fichier ali2d du site web ??? 
+	@param {string} : permettant de savoir quel cas on va traiter
+	"""
+	*/
+	
 	$separate="";
 	$size="";
 	$files ="";
@@ -136,17 +172,18 @@ function Display($text){
 	}
 }
 
-
-/**
- * 
- * @return True si le format du texte dans la boite align est incorrecte, False sinon
- * Cette fonction verifie le format du texte dans la boite align
- */
 function format_incorrect_align(){
-	/*Ouvre le fichier et retourne un tableau contenant une ligne par élément*/
+	/*
+	"""
+	Cette fonction verifie le format du texte dans la boite align
+	@return {Boolean} : True si le format du texte dans la boite align est incorrecte, False sinon
+	"""
+	*/
+
+	//Ouvre le fichier et retourne un tableau contenant une ligne par élément
 	$lines = file($_FILES['alignFile']['tmp_name']);
 	$tab = array(); //tableau dans lequel les clefs seront 
-	/*Construit le dictionnaire*/
+	//Construit le dictionnaire
 	foreach ($lines as $lineNumber => $lineContent){
 		if(preg_match('/^[A-Z]/',$lineContent, $m)){		//test que ce n'est pas une ligne vide
 			$tmp = split('      ',$lineContent);
@@ -180,15 +217,18 @@ function format_incorrect_align(){
 	return false;
 }
 
-/**
- * 
- * @return {Boolean}  True si le format du texte dans la boite pred est incorrecte, False sinon
- */
 function format_incorrect_pred(){
-	/*Ouvre le fichier et retourne un tableau contenant une ligne par élément*/
+	/*
+	"""
+	Cette fonction verifie le format du texte dans la boite pred
+	@return {Boolean}  True si le format du texte dans la boite pred est incorrecte, False sinon
+	"""
+	*/
+
+	//Ouvre le fichier et retourne un tableau contenant une ligne par élément
 	$lines = file($_FILES['predFile']['tmp_name']);
 	$tab = array(); //tableau dans lequel les clefs seront 
-	/*Construit le dictionnaire*/
+	//Construit le dictionnaire
 	foreach ($lines as $lineNumber => $lineContent){
 		$tmp = split("\t",$lineContent);
 		if(count($tmp)!=2)	return true;		//une ligne a plus de deux colonnes
