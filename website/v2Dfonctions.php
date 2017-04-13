@@ -6,17 +6,19 @@ function formulaire(){
 	"""
 	*/
 	
-	return '<form method="post" action="view2Dalign.php" enctype="multipart/form-data">
+	return '<form name="view2dali" method="post" action="view2Dalign.php" enctype="multipart/form-data">
 		<!-- Boite pour mettre sequence-->
 
 		<label for="align">Insert Sequence here :</label>
 		<textarea name="align" id="align" rows=12 cols=80></textarea>
 		<span id="alignvide"></span>
 		<br />
+		<button name="b" type="button" onclick="document.view2dali.align.value=\'\';" >Clear</button>
+		<br />
 		<label for="alignFile">Or upload file: </label>
 		<input type="file" id="alignFile" name="alignFile" width="630"/>
 		<br /> 
-
+			
 		<!-- Boite pour mettre structure 2D-->
 
 		<br />
@@ -24,6 +26,8 @@ function formulaire(){
 		<textarea name="pred" id="pred" rows=12 cols=80></textarea>
 		<span id="predvide"></span>
 	 	<br />
+	 	<button name="b" type="button" onclick="document.view2dali.pred.value=\'\';" >Clear</button>
+		<br />
 	 	<label for="predFile">Or upload file:</label>
 		<input type="file" id="predFile" name="predFile" width="630"/>
 		<br />
@@ -94,16 +98,10 @@ function array_empty(){
 	*/
 	
 	$cpt = 0;
-	if($FILES["alignFile"]["size"] == 0)	$cpt++;
-	if($FILES["predFile"]["size"] == 0)	$cpt++;
-	if($FILES["ali2D"]["size"] == 0 && $cpt==2)	return $cpt;
-	else{
-		if($FILES["ali2D"]["size"] != 0)	return 3;
-		else {
-			if($cpt==1)	return 2;
-			else return 1;
-		} 
-	}
+	if($_FILES["alignFile"]["size"] == 0)	$cpt++;
+	if($_FILES["predFile"]["size"] == 0)	$cpt++;
+	if(($_FILES["ali2D"]["size"] == 0 && $cpt==2) || ($FILES["ali2D"]["size"] == 0 && $cpt==1))	return $cpt;
+	else	if($_FILES["ali2D"]["size"] != 0)	return 3;
 }
 
 function testValidite(){
@@ -115,12 +113,8 @@ function testValidite(){
 	
 	if(array_empty() == 3)	Display("ali2D");
 	else{
-		if(array_empty() == 2){
-			Display("textarea");
-		}
-		else{
-			Display("files");
-		}
+		if(array_empty() == 2)	Display("textarea");
+		else	Display("files");
 	}
 	unset($GLOBALS['_FILES']);
 	unset($GLOBALS['_POST']);
@@ -145,9 +139,7 @@ function Display($text){
 			if(!format_incorrect_align() && !format_incorrect_pred()){
 				$files = array(0 => $_FILES['alignFile']['tmp_name'], 1 => $_FILES['predFile']['tmp_name']);
 			}
-		}else{	
-			$files = array(0 => $_FILES['ali2D']['tmp_name']);
-		}
+		}else	$files = array(0 => $_FILES['ali2D']['tmp_name']);
 	}
 	if($files != ""){
 		if(isset($_POST['separate']))	$separate = " --s";
