@@ -49,16 +49,20 @@
             <div class="post_content">
                 
                 
-                <form method="post" action="" enctype="multipart/form-data">
+                <form name="compare" method="post" action="" enctype="multipart/form-data">
                         <!-- Boite pour mettre query-->
                		<label for="query">Insert Query here :</label>
                 	<textarea name="query" id="query" rows=1 cols=80></textarea>
+                	<button name="b" type="button" onclick="document.compare.query.value='';" >Clear</button>
+			<br />
                         <span id="queryvide"></span>
                         
                 	<!-- Boite pour mettre predictions-->
-                	<br /></br>
+                	<br /><br />
                 	<label for="preds">Insert 2D Predictions here (with respective tool names) :</label>
                 	<textarea name="preds" id="preds" rows=3 cols=80></textarea>
+                	<button name="b" type="button" onclick="document.compare.preds.value='';" >Clear</button>
+			<br />
                         <span id="predsvide"></span>
                  	<br /><br /><br />
                  	
