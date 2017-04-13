@@ -11,4 +11,6 @@ define('SCRIPT_2DSS', '../scripts/2dss.py');
 define('PREMIER_RESULTAT', '/tmp/f.txt');
 //le fichier a afficher
 define('RESULTAT', '/tmp/resultat.svg');
+//chemin vers le script ali2D
+define('SCRIPT_CONVERTALI2D','../scripts/convertali2D.py');
 ?>

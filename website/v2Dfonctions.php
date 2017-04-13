@@ -1,16 +1,14 @@
 <?php
-include('variableDAmbiance.php');
-
 //ecrit le formulaire a remplir pour avoir view2Dalignement
 function formulaire(){
-	echo '<form method="post" action="view2Dalign.php" enctype="multipart/form-data">
+	return '<form method="post" action="view2Dalign.php" enctype="multipart/form-data">
 		<!-- Boite pour mettre sequence-->
 
 		<label for="align">Insert Sequence here :</label>
 		<textarea name="align" id="align" rows=12 cols=80></textarea>
 		<span id="alignvide"></span>
 		<br />
-		Or apload file: 
+		<label for="alignFile">Or upload file: </label>
 		<input type="file" id="alignFile" name="alignFile" width="630"/>
 		<br /> 
 
@@ -21,8 +19,13 @@ function formulaire(){
 		<textarea name="pred" id="pred" rows=12 cols=80></textarea>
 		<span id="predvide"></span>
 	 	<br />
-	 	Or apload file:
+	 	<label for="predFile">Or upload file:</label>
 		<input type="file" id="predFile" name="predFile" width="630"/>
+		<br />
+		<br />
+		<br />
+		<label for="ali2D">Or upload file alignement2D :</label>
+		<input name="ali2D" id="ali2D" type="file" width="630"/>
 		<br />
 		<br />
 		<input<!--Specifier taille sortie-->
@@ -34,7 +37,7 @@ function formulaire(){
 		<input type="checkbox" id="separate" name="separate" />	
 		<br />
 		<br />
-		<input type="submit" value="submit" id="submit_button"/>
+		<center><input type="submit" value="submit" id="submit_button"/></center>
 	 	<br />
 	      </form>
 	      <script type="text/javascript" src="js/submit.js"></script>';
@@ -52,10 +55,14 @@ function createFiles(){
 }
 
 //execution et renvois du resultat c'est a dire le fichier de l'alignement 2D
-function execute($align, $pred, $size, $separate){
+function execute($files, $size, $separate){
 	//execution des scripts
-	exec("python ".SCRIPT_2DSSTOALN." -alnFile ".$align." -ssFile ".$pred." -o ".PREMIER_RESULTAT);	
-	exec("python ".SCRIPT_2DSS." -inputFile ".PREMIER_RESULTAT." -o ".RESULTAT.$size.$separate);
+	if(count($files)==2){
+		exec("python ".SCRIPT_2DSSTOALN." -alnFile ".$files[0]." -ssFile ".$files[1]." -o ".PREMIER_RESULTAT);
+	}else{
+		exec("python ".SCRIPT_CONVERTALI2D." ".$files[0]." ".PREMIER_RESULTAT);
+	}
+	exec("python ".SCRIPT_2DSS." -t 1 -inputFile ".PREMIER_RESULTAT." -o ".RESULTAT.$size.$separate);
 	unlink(PREMIER_RESULTAT);
 	unlink(ALIGN);
 	unlink(PRED);
@@ -64,16 +71,28 @@ function execute($align, $pred, $size, $separate){
 //Utiliser pour tester si $_FILES est vide
 function array_empty($tab){
 	$cpt = 0;
-	foreach($tab as $val)	if($val["size"] == 0)	$cpt++;
-	return $cpt;
+	if($tab["alignFile"]["size"] == 0)	$cpt++;
+	if($tab["predFile"]["size"] == 0)	$cpt++;
+	if($tab["ali2D"]["size"] == 0 && $cpt==2)	return $cpt;
+	else{
+		if($tab["ali2D"]["size"] != 0)	return 3;
+		else {
+			if($cpt==1)	return 2;
+			else return 1;
+		} 
+	}
 }
 
 //test les champs et decide lesquels des textarea ou des fichiers vont etre utiliser pour generer le view2DAlignement
 function testValidite(){
-	if(array_empty($_FILES) == 2)	Display("textarea");
+	if(array_empty($_FILES) == 3)	Display("ali2D");
 	else{
-		if(array_empty($_FILES) == 1)	Display("textarea");
-		else	Display("files");
+		if(array_empty($_FILES) == 2){
+			Display("textarea");
+		}
+		else{
+			Display("files");
+		}
 	}
 	unset($GLOBALS['_FILES']);
 	unset($GLOBALS['_POST']);
@@ -81,17 +100,20 @@ function testValidite(){
 
 //test et affichage du resultat
 function Display($text){
-
-	if(!format_incorrect_align() and !format_incorrect_pred()){
-		$separate="";
-		$size="";
-	
-		if($text == "textarea") $files = createFiles();
-		else{
-			echo format_incorrect_align();
-			$files = array(0 => $_FILES['alignFile']['tmp_name'], 1 => $_FILES['predFile']['tmp_name']);
+	$separate="";
+	$size="";
+	$files ="";
+	if($text == "textarea") $files = createFiles();
+	else{
+		if($text == "files"){
+			if(!format_incorrect_align() && !format_incorrect_pred()){
+				$files = array(0 => $_FILES['alignFile']['tmp_name'], 1 => $_FILES['predFile']['tmp_name']);
+			}
+		}else{	
+			$files = array(0 => $_FILES['ali2D']['tmp_name']);
 		}
-	
+	}
+	if($files != ""){
 		if(isset($_POST['separate']))	$separate = " --s";
 
 		if(isset($_POST['size'])){
@@ -103,7 +125,7 @@ function Display($text){
 		}		
 
 		echo "<form method='get' action='view2DalignFormulaire.php' enctype='multipart/form-data'><center>";
-		execute($files[0],$files[1],$size, $separate);
+		execute($files,$size, $separate);
 		if(readfile(RESULTAT)!="")	echo "<button type='submit' formaction='download.php'>PDF</button>";
 		echo "<input type='submit' value='previous'/></center>";
 		echo "</form>";

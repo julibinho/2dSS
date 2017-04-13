@@ -49,7 +49,7 @@
             <div class="post_content">
 <?php
 include("v2Dfonctions.php");
-formulaire();
+echo formulaire();
 ?>
           </div> 
           <div class="clr"></div>
