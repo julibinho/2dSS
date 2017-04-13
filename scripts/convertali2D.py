@@ -23,6 +23,7 @@ def convertFile(fileInput, fileOutput):
 	
 	g = open(fileOutput, "w")
 	
+	#print "length of lines", len(lines)
 	for i in range (0, len(lines)):
 		
 		if lines[i]!="\n" and lines[i]!="":             # because file may contain blank lines at the end
@@ -33,11 +34,13 @@ def convertFile(fileInput, fileOutput):
 				seq = seq1[0].split(" ")[1]	# 'd1itha_'
 				g.write(seq)
 
+
 			if i % 6 == 1:
 				words = lines[i].split(":")	# ['  seq0', ' -------------------ETAYFSDSNGQQKNRI- ... \n']
 				seq2 = words[1].split("\n")	# [' -------------------ETAYFSDSNGQQKNRI- ...', '']
-				seq = seq2[0]			# '-------------------ETAYFSDSNGQQKNRI- ...'
-			
+				seq = seq2[0].split(" ")[1]     # '-------------------ETAYFSDSNGQQKNRI- ...'
+				
+				g.write("\t")
 				g.write(seq)
 
 			if i % 6 == 3:
@@ -47,7 +50,11 @@ def convertFile(fileInput, fileOutput):
 
 				g.write("\t")
 				g.write(seq)
-				g.write("\n")
+				
+				if (i+6 < len(lines)-1):
+					#print "i is:", i
+					g.write("\n")
+				
 	g.close()
 
 
