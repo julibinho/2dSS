@@ -16,7 +16,7 @@ var setSeq = new Set();
  * Fonction principale bloquant l'envoi des donnees si les formats dans les boites ne sont pas bonnes
  */
 function f_valid(e){
-	if ((content_missing_box("alignFile") && content_missing_box("predFile")) || (content_missing_box("alignFile")) || (content_missing_box("predFile")) ){
+	if ((content_missing_box("alignFile") && content_missing_box("predFile") && content_missing_box("ali2D")) || (content_missing_box("alignFile") && content_missing_box("ali2D")) || (content_missing_box("predFile") && content_missing_box("ali2D"))){
    		if(content_missing_box("align") || content_missing_box("pred")){
 	        	if(content_missing_box("align")){
 		        	affiche(champ_alignvide, "Contents Missing");
