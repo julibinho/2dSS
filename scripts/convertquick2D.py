@@ -71,7 +71,7 @@ def convertFile(fileInput, fileOutput):
 				profcRost+= new_s
 	
 	g = open(fileOutput, "w")
-	g.write("QUERY\t"+query+"\n"+"PSIPRED\t"+psipred+"\n"+"JNET\t"+jnet+"\n"+"PROFC(Ouali)\t"+profcOuali+"\n"+"PROFC(Rost)\t"+profcRost+"\n")
+	g.write("QUERY\t"+query+"\n"+"PSIPRED\t"+psipred+"\n"+"JNET\t"+jnet+"\n"+"PROFC(Ouali)\t"+profcOuali+"\n"+"PROFC(Rost)\t"+profcRost)
 	
 	g.close()
 
