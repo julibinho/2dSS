@@ -28,7 +28,6 @@
         <h1><a href="index.html">2d<span>SS</span> <small>secondary structure visualization</small></a></h1>
       </div>
       <div class="clr"></div>
-     
       <div class="clr"></div>
     </div>
   </div>
@@ -48,9 +47,10 @@
           <div class="clr"></div>
             <div class="post_content">
 <?php
-include("v2Dfonctions.php");
-echo formulaire();
-?>
+include('cpfonctions.php');
+include('variableDAmbiance.php');
+testValidite();
+?> 
           </div> 
           <div class="clr"></div>
         </div>
@@ -115,4 +115,3 @@ echo formulaire();
 </div>
 </body>
 </html>
-

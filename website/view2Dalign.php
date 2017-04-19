@@ -49,8 +49,8 @@
 <?php
 include('v2Dfonctions.php');
 include('variableDAmbiance.php');
-unlink(RESULTAT);
 testValidite();
+unlink(RESULTAT.$_SERVER['REMOTE_ADDR'].".svg");
 ?> 
           </div> 
           <div class="clr"></div>
@@ -69,7 +69,7 @@ testValidite();
           <ul class="sb_menu">
             <li><a href="view2DalignFormulaire.php">View 2d Alignment</a></li>
             <li><a href="compute2Dalign.html">Compute 2d Alignment</a></li>
-            <li><a href="comparepred.html">Compare Predictions</a></li>
+            <li><a href="comparepredFormulaire.php">Compare Predictions</a></li>
           </ul>
         </div>
         <div class="gadget">

@@ -8,7 +8,6 @@ function formulaire(){
 	
 	return '<form name="view2dali" method="post" action="view2Dalign.php" enctype="multipart/form-data">
 		<!-- Boite pour mettre sequence-->
-
 		<label for="align">Insert Sequence here :</label>
 		<textarea name="align" id="align" rows=12 cols=80></textarea>
 		<span id="alignvide"></span>
@@ -18,9 +17,7 @@ function formulaire(){
 		<label for="alignFile">Or upload file: </label>
 		<input type="file" id="alignFile" name="alignFile" width="630"/>
 		<br /> 
-			
 		<!-- Boite pour mettre structure 2D-->
-
 		<br />
 		<label for="pred">Insert 2D Structures here :</label>
 		<textarea name="pred" id="pred" rows=12 cols=80></textarea>
@@ -48,8 +45,8 @@ function formulaire(){
 		<br />
 		<center><input type="submit" value="submit" id="submit_button"/></center>
 	 	<br />
-	      </form>
-	      <script type="text/javascript" src="js/submit.js"></script>';
+	    	</form>
+	        <script type="text/javascript" src="js/submit.js"></script>';
 }
 
 function createFiles(){
@@ -84,7 +81,7 @@ function execute($files, $size, $separate){
 	}else{
 		exec("python ".SCRIPT_CONVERTALI2D." ".$files[0]." ".PREMIER_RESULTAT);
 	}
-	exec("python ".SCRIPT_2DSS." -t 1 -inputFile ".PREMIER_RESULTAT." -o ".RESULTAT.$size.$separate);
+	exec("python ".SCRIPT_2DSS." -t 1 -inputFile ".PREMIER_RESULTAT." -o ".RESULTAT.$_SERVER['REMOTE_ADDR'].".svg".$size.$separate);
 	unlink(PREMIER_RESULTAT);
 	unlink(ALIGN);
 	unlink(PRED);
@@ -100,7 +97,7 @@ function array_empty(){
 	$cpt = 0;
 	if($_FILES["alignFile"]["size"] == 0)	$cpt++;
 	if($_FILES["predFile"]["size"] == 0)	$cpt++;
-	if(($_FILES["ali2D"]["size"] == 0 && $cpt==2) || ($FILES["ali2D"]["size"] == 0 && $cpt==1))	return $cpt;
+	if(($_FILES["ali2D"]["size"] == 0 && $cpt==2) || ($_FILES["ali2D"]["size"] == 0 && $cpt==1))	return $cpt;
 	else	if($_FILES["ali2D"]["size"] != 0)	return 3;
 }
 
@@ -120,7 +117,6 @@ function testValidite(){
 	unset($GLOBALS['_POST']);
 }
 
-//test et affichage du resultat
 function Display($text){
 	/*
 	"""
@@ -154,7 +150,7 @@ function Display($text){
 
 		echo "<form method='get' action='view2DalignFormulaire.php' enctype='multipart/form-data'><center>";
 		execute($files,$size, $separate);
-		if(readfile(RESULTAT)!="")	echo "<button type='submit' formaction='download.php'>PDF</button>";
+		if(readfile(RESULTAT.$_SERVER['REMOTE_ADDR'].".svg")!="")	echo "<button type='submit' formaction='download.php'>PDF</button>";
 		echo "<input type='submit' value='previous'/></center>";
 		echo "</form>";
 	}else{

@@ -38,7 +38,7 @@
     <div class="content_resize">
       <div class="mainbar">
         <div class="article"> 
-            <h2><center>View 2d Alignment</center></h2>
+            <h2><center>Compare Predictions</center></h2>
         <!-- <p class="infopost">Posted <span class="date">on 11 sep 2018</span> by <a href="#">Admin</a> &nbsp;&nbsp;|&nbsp;&nbsp; Filed under <a href="#">templates</a>, <a href="#">internet</a></p> -->    
         
         </div> 
@@ -48,10 +48,10 @@
           <div class="clr"></div>
             <div class="post_content">
 <?php
-include("v2Dfonctions.php");
-echo formulaire();
-?>
-          </div> 
+include("cpfonctions.php");
+echo formulaireCP();
+?>              
+            </div> 
           <div class="clr"></div>
         </div>
           
