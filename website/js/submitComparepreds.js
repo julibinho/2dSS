@@ -3,6 +3,7 @@ validation.addEventListener('click',f_valid);
 
 var champ_queryvide = document.getElementById("queryvide");
 var champ_predsvide = document.getElementById("predsvide");
+var champ_filevide = document.getElementById("filevide");
 
 /**
  * 
@@ -26,6 +27,14 @@ function f_valid(e){
 	       		}else{
 		    		affiche(champ_predsvide,"");
 	       		}
+	       		
+	       		if(content_missing_box("query") && content_missing_box("preds")){
+	       			affiche(champ_filevide, "Contents Missing");
+		     		e.preventDefault();
+	       		}else{
+	       			affiche(champ_filevide,"");
+	       		}
+	       		
 		}else{
 			if (format_incorrect_query()){
 		        	affiche(champ_queryvide,"Incorrect Format");
