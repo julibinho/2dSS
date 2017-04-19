@@ -4,16 +4,14 @@ validation.addEventListener('click',f_valid);
 var champ_predvide = document.getElementById("predvide");
 var champ_alignvide = document.getElementById("alignvide");
 
-//var champ_align2vide = document.getElementById("align2vide");
-//var champ_pred2vide = document.getElementById("pred2vide");
 
-//Var global stockant les noms eg d1x9fc_, d1jl7a_ ...
+//Global variable storing names eg d1x9fc_, d1jl7a_ ...
 var setSeq = new Set();
 
 /**
  * 
- * @param {type} e : evenement 
- * Fonction principale bloquant l'envoi des donnees si les formats dans les boites ne sont pas bonnes
+ * @param {type} e : event 
+ * Principal function preventing submission of data if data format in text boxes is incorrect
  */
 function f_valid(e){
 	if ((content_missing_box("alignFile") && content_missing_box("predFile") && content_missing_box("ali2D")) || (content_missing_box("alignFile") && content_missing_box("ali2D")) || (content_missing_box("predFile") && content_missing_box("ali2D"))){
@@ -52,20 +50,23 @@ function f_valid(e){
     
 }
 
+
 /**
  * 
  * @param {type} champ
  * @param {type} message
- * Affiche un message dans le champ 
+ * Display message in field champ 
  */
 function affiche(champ,message){
     champ.textContent = message;
     champ.style.color = "red";
 }
+
+
 /**
  * 
- * @param {type} id de la boite
- * @returns {Boolean} True si la boite est vide, False sinon
+ * @param {type} id of box field
+ * @returns {Boolean} True if box field empty, False otherwise
  */
 function content_missing_box(id){
     var a = document.getElementById(id).value;
@@ -77,10 +78,10 @@ function content_missing_box(id){
 
 /**
  * 
- * @param {type} arrStr tableau contenant de strings
- * @returns {Boolean} True s'il n'y a que deux colonnes contenant des caracteres, False sinon
+ * @param {type} arrStr Array containing strings
+ * @returns {Boolean} True if only two columns(elements in the Array) contain characters, False otherwise
  * 
- *  Cette fonction est utilisee pour verifier qu'il n'y a que deux colonnes dans le text de la boite align
+ *  This function is useful to verify whether there are only two columns in the align text box 
  */
 function test_only_2_columns(arrStr){
 	var i;
@@ -97,9 +98,9 @@ function test_only_2_columns(arrStr){
 }
 /**
  * 
- * @param {type} arrStr tableau de strings
- * @returns {Array|col1_col2.col1col2} Le tableau contenant que les elements caracteres de arrStr
- * Le tableau est sous la forme des deux colonnes d'une ligne dans le texte de la boite align
+ * @param {type} arrStr Array of strings
+ * @returns {Array|col1_col2.col1col2} The array containing only the character elements of arrStr
+ * The Array is in the form of the two columns of a line in the align text box
  */
 function col1_col2(arrStr){
     var col1col2 = [];
@@ -115,8 +116,7 @@ function col1_col2(arrStr){
 
 /**
  * 
- * @returns True si le format du texte dans la boite align est incorrecte, False sinon
- * Cette fonction verifie le format du texte dans la boite align
+ * @returns True if data format in align text box is incorrect, False otherwise
  */
 function format_incorrect_align(){
 
@@ -124,18 +124,18 @@ function format_incorrect_align(){
 
     var textArea = document.getElementById("align").value;
     var arrayOfLines = textArea.split("\n");
-    var noOfLines = arrayOfLines.length; // Nb de lignes dans le texte
+    var noOfLines = arrayOfLines.length; // No of lines in text
    
     var i = 0;
     var line = arrayOfLines[i];
     
 	
-    // Premier passage -> Recuperer les noms des sequences
-   while( (i<noOfLines) && ((line.match(/[a-z]/i))!==null) ){ // Tester pas encore arrive a fin et
-                                                              // que premiere ligne vide pas encore rencontree
+    // First parse -> Collect sequence names 
+   while( (i<noOfLines) && ((line.match(/[a-z]/i))!==null) ){ // Test end not yet reached 
+                                                              // and first blank line not yet encountered
         var colsOfLine = line.split(" ");
 
-        if(!test_only_2_columns(colsOfLine)){ // Tester s'il y a plus que deux colonnes 
+        if(!test_only_2_columns(colsOfLine)){ // Test if there are more than 2 columns
             return true;
         }
         
@@ -143,25 +143,25 @@ function format_incorrect_align(){
         var col1 = col1col2[0];
         var col2 = col1col2[1];
 
-	if( (col2.match(/^[a-z-]+$/i)) === null ){ // Tester si il y a autre que ABC..Z et -
+	if( (col2.match(/^[a-z-]+$/i)) === null ){ // Test if there are characters other than ABC..Z or -
 		return true;
 	}
 
-        setSeq.add(col1); // Stockage des noms des sequences
+        setSeq.add(col1); // Store sequence names
         i++;
         line = arrayOfLines[i];  
 
     }
 
-    // Passage sur reste des lignes -> Voir si les noms des sequences matchent 
+    // Parse remaining lines -> See if sequence names match 
     while (i < noOfLines){
         
         line = arrayOfLines[i];
         
-        if ((line.match(/[a-z]/i))!==null){ // Si pa la ligne vide
+        if ((line.match(/[a-z]/i))!==null){ // If not blank line
              colsOfLine = line.split(" ");
              
-            if(!test_only_2_columns(colsOfLine)){ // Tester s'il y a plus que deux colonnes 
+            if(!test_only_2_columns(colsOfLine)){ // Test if there are more than 2 columns
                  return true;
             }
 		
@@ -169,11 +169,11 @@ function format_incorrect_align(){
             col1 = col1col2[0];
             col2 = col1col2[1]; 
             
-            if (!setSeq.has(col1)){ // Tester s'il n'y a pas la coherence/ les sequences ne repetent pas
+            if (!setSeq.has(col1)){ // Test for incoherence/ sequence names don't repeat
                 return true;
             }
 
-	    if( (col2.match(/^[a-z-]+$/i)) === null ){ // Tester si il y a autre que ABC..Z et -
+	    if( (col2.match(/^[a-z-]+$/i)) === null ){ // Test if there are characters other than ABC..Z or -
 		return true;
 	    }
      
@@ -183,11 +183,11 @@ function format_incorrect_align(){
     return false;   
 }
 
+
 /**
  * 
- * @returns {Boolean}  True si le format du texte dans la boite pred est incorrecte, False sinon
+ * @returns True if data format in pred text box is incorrect, False otherwise
  */
-
 function format_incorrect_pred(){
     
     var textArea = document.getElementById("pred").value;
@@ -195,27 +195,27 @@ function format_incorrect_pred(){
     var noOfLines = arrayOfLines.length;
     
     var i=0; 
-    while( i < noOfLines ){         // Tant que pas arrive a la fin
+    while( i < noOfLines ){         // End not yet reached
         var line = arrayOfLines[i];
         
         var colsOfLine = line.split("\t"); 
 
-	if (colsOfLine.length !== 2){ // Tester s'il y a plus que deux colonnes 
+	if (colsOfLine.length !== 2){ // Test if there are more than 2 columns
 		return true;
 	}
 
         var col1 = colsOfLine[0];
 	var col2 =colsOfLine[1];
 	
-        if(!setSeq.has(col1)){      // Tester si la sequence n'est pas dans var global setSeq
+        if(!setSeq.has(col1)){      // Tester if sequence not in global var setSeq
             return true;
         }
 	
-	if (col2.includes(" ")){    // Tester si la col2 contient des espaces
+	if (col2.includes(" ")){    // Test if column 2 contains spaces
 		return true;
 	}
 
-	if( (col2.match(/^[che]+$/i)) === null ){  // Tester si col2 contient autre que des C,H et E
+	if( (col2.match(/^[che]+$/i)) === null ){  // Test if col2 contains characters other than C,H or E
 		return true;
 	}
         
