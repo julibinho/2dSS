@@ -1,5 +1,5 @@
 import sys
-
+import re
 
 
 # USE: "python convertquick2D.py <inputfile> <outputfile>"
@@ -19,24 +19,65 @@ def replaceSpace(string, letter):
 			res = res + c
 		
 	return res
-	
 
 ######################################################################################################################################
-def convertFile(fileInput, fileOutput):
-	""" Converts input file in quick2D.input format to quick2D.output format
+def testInput(fileInput):
+	""" Tests the format of the input quick2D.input file
 	    @param {filepath} fileInput : Filepath of quick2D.input file
-	    @param {filepath} fileOutput: Filepath of quick2D.output file
+	    @returns: {boolean} : True if file format is correct, False otherwise
+	    
 	"""
 	try:
 		f = open(fileInput, "r")
 		
 	except 	IOError:
-		print "Error: File not found"
+		print "ERROR:: File not found"
+		sys.exit(1)
+
+	lines = f.readlines()
+	f.close()
+
+	for i in range(0, len(lines)):
+		if lines[i]!="\n" and lines[i]!="": 
+			x = i % 17
+
+			lengthline = len(lines[i])
+			line = lines[i]
+			col2 = line[17: lengthline-1]
+
+
+			if x == 0: # Query
+				if not(col2.isalpha()):
+					return False
+
+			reg=re.compile('^[CHEche \.]+$')
+			if (x==1) or (x==3) or (x==5) or (x==7): # SS PSIPRED, SS JNET, SS PROF (Ouali), SS PROF (Rost)
+				if not(reg.match(col2)): # If line contains other than C,H,E or space
+					return False
+	
+	return True	
+			
+######################################################################################################################################
+def convertFile(fileInput, fileOutput):
+	""" Converts input file in quick2D.input format to quick2D.output format
+	    @param {filepath} fileInput : Filepath of quick2D.input file
+	    @param {filepath} fileOutput: Filepath of quick2D.output file
+
+	    Prints error message if file not found or quick2D.input file not in expected format
+	"""
+	try:
+		f = open(fileInput, "r")
+		
+	except 	IOError:
+		print "ERROR:: File not found"
 		sys.exit(1)
 	
 	lines = f.readlines()
 	f.close()
 	
+	if (not testInput(fileInput)):
+		print "ERROR:: File input format incorrect"
+		sys.exit(1)
 
 	query=""
 	psipred=""
