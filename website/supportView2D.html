@@ -79,9 +79,17 @@ Acof_DPh3	CCCCCCCCCCCCHHHHHHHHHHHHHCHHHHHHHHCCCCCCCCCCCCCCCCCCEEEECCCCCCCCCCCCCC
 	<p><strong><font size="3">Alignment 2D File</strong></font></h2></p>
 	<p>The third option available is to upload the alignment 2D file output from the Ali2D website found at <a href="https://toolkit.tuebingen.mpg.de/ali2d">https://toolkit.tuebingen.mpg.de/ali2d</a>. On this website, you can insert your unaligned sequences and the ali2D tool will align them and predict their 2D structures. Our website can accept their output file and produce the appropriate useful visualization.</p>
 	<center>Or upload alignment2D file:<button type="button">Choose file</button> No file chosen</center></p>
+	<p><strong><font size="3">Additional parameters</strong></font></h2></p>
+	<p>You may choose the output size you wish for the result.</p>
+	<center>Output size:<input type="number" id="size" value=10 rows=1 cols=1 min="0"/></center>
+	<p>You may also wish to separate the sequences block input from the visual representation on the result page. Check the separate box to do so.</p>
+	<center>Separate <input type="checkbox" id="separate"></center><img src="images/separateNo.png"></br></br></br></br>
+	<center>Separate <input type="checkbox" id="separate" checked></center><img src="images/separate.png">
+	</br></br></br>
 	<p><strong><font size="3">Submitting</strong></font></h2></p>
 
 	<p>Once you have ensured all your data or files have been correctly input, click on the <button type="button">Submit</button> button and the result will appear on a new page.</p>
+	
           </div>
           <div class="clr"></div>
         </div>
