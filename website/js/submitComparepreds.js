@@ -108,13 +108,13 @@ function format_incorrect_preds(){
 		
 		if ((line.match(/[a-z]/i))!==null){ // If not empty line
 				
-			var index = line.indexOf(' '); // Return true if space not found
+			var index = line.indexOf('\t'); // Return true if space not found
 			if (index < 0){			
 				return true;
 			}
 
-			toolName = line.substr(0,line.indexOf(' '));
-			pred = line.substr(line.indexOf(' ')+1);
+			toolName = line.substr(0,line.indexOf('\t'));
+			pred = line.substr(line.indexOf('\t')+1);
 			
 			if (toolName==="" || pred===""){ 
 				return true;
