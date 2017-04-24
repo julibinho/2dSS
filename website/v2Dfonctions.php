@@ -31,7 +31,7 @@ function formulaire(){
 		<br />
 		<br />
 		<label for="ali2D">Or upload file alignement2D :</label>
-		<input name="ali2D" id="ali2D" type="file" width="630"/>
+		<input name="ali2D" id="ali2D" type="file" width="630"/><a href="https://toolkit.tuebingen.mpg.de/ali2d">site ali2D</a>
 		<br />
 		<br />
 		<input<!--Specifier taille sortie-->
@@ -90,7 +90,7 @@ function execute($files, $size, $separate){
 function array_empty(){
 	/*
 	"""
-	Permet de savoir dans quel cas utiliser les informations contenu dans les textarea dans les files leurs correspondant ou bien dans le fichier recuperer du site web ????
+	Permet de savoir dans quel cas utiliser les informations contenu dans les textarea dans les files leurs correspondant ou bien dans le fichier recuperer du site web ali2D
 	"""
 	*/
 	
@@ -121,7 +121,7 @@ function Display($text){
 	/*
 	"""
 	Permet l'affichage de la visualisation de l'alignement 2D dans les trois cas.
-	Si jamais on utilise les fichiers une verification est operer si jamais on utilise les textarea la verification a ete faite dans le submit.js et enfin si on utilise le fichier ali2d du site web ??? 
+	Si jamais on utilise les fichiers une verification est operer si jamais on utilise les textarea la verification a ete faite dans le submit.js et enfin si on utilise le fichier ali2d du site web quick2D 
 	@param {string} : permettant de savoir quel cas on va traiter
 	"""
 	*/
@@ -148,9 +148,9 @@ function Display($text){
 			}
 		}		
 
-		echo "<form method='get' action='view2DalignFormulaire.php' enctype='multipart/form-data'><center>";
 		execute($files,$size, $separate);
-		if(readfile(RESULTAT.$_SERVER['REMOTE_ADDR'].".svg")!="")	echo "<button type='submit' formaction='download.php'>PDF</button>";
+		readfile(RESULTAT.$_SERVER['REMOTE_ADDR'].".svg");
+		echo "<form method='get' action='view2DalignFormulaire.php' enctype='multipart/form-data'><center>";
 		echo "<input type='submit' value='previous'/></center>";
 		echo "</form>";
 	}else{

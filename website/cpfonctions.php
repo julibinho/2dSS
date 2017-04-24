@@ -22,7 +22,7 @@ function formulaireCP(){
          	<br /><br /><br />
                 <!-- Boite pour upload sequence-->
         	<label for="quick2D">Or upload Quick2D File:</label>
-        	<input type="file" id="quick2D" name="quick2D" width="630"/>
+        	<input type="file" id="quick2D" name="quick2D" width="630"/><a href="https://toolkit.tuebingen.mpg.de/quick2_d">site ali2D</a>
 		<br />
 		<span id="filevide"></span>
 		<br /><br /><br />	
@@ -39,27 +39,31 @@ function createFiles(){
 	*/
 	
 	$f = fopen(QUICK, 'w');
-	fwrite($f, "QUERY ".$_POST['query']."\n");
+	fwrite($f, "QUERY\t".$_POST['query']."\n");
 	fwrite($f, $_POST['preds']);
 	fclose($f);
 	return "bon";
 }
 
 function execute($text){
+	/*
+	"""
+	Execution des script si le textarea est rempli et non les fichiers on n'execute que le script 2DSS sinon il faut qu'on passe le fichier dans le script convertquick2D pour qu'il corresponde à la sortie que l'on veut et ensuite on n'execute que le script 2DSS.
+	@return {String} : on retourne un string non vide pour satisfaire le test dans display.
+	"""
+	*/
 	if($text != "textarea"){
-		exec("python ".SCRIPT_CONVERTQUICK2D." ".$_FILES['quick2D']." ".QUICK);
+		exec("python ".SCRIPT_CONVERTQUICK2D." ".$_FILES['quick2D']['tmp_name']." ".QUICK);
 	}
-	echo $text;
-	readfile($_POST);
-	readfile($_FILES['quick2D']);
 	exec("python ".SCRIPT_2DSS." -t 2 -inputFile ".QUICK." -outputFile ".RESULTAT.$_SERVER['REMOTE_ADDR'].".svg");
+	unlink(QUICK);
 	return "bon";
 }
 
 function testValidite(){
 	/*
 	"""
-
+	permet de savoir ce qu'on va utiliser du textarea ou du fichier
 	"""
 	*/
 	
@@ -74,6 +78,7 @@ function testValidite(){
 function Display($text){
 	/*
 	"""
+	Excecute et affiche le resultat
 	@param {string} : permettant de savoir quel cas on va traiter
 	"""
 	*/
@@ -82,17 +87,13 @@ function Display($text){
 	if($text == "textarea") $ok = createFiles();
 	else{
 		if($text == "file"){
-			echo format_incorrect_file();
-			if(!format_incorrect_file()){
-				$ok = "bon";
-			}
+			$ok = "bon";
 		}
 	}
-	echo $ok;
 	if($ok != ""){
 		echo "<form method='get' action='comparepredFormulaire.php' enctype='multipart/form-data'><center>";
 		execute($text);
-		if(readfile(RESULTAT.$_SERVER['REMOTE_ADDR'].".svg")!="")	echo "<button type='submit' formaction='download.php'>PDF</button>";
+		readfile(RESULTAT.$_SERVER['REMOTE_ADDR'].".svg");
 		echo "<input type='submit' value='previous'/></center>";
 		echo "</form>";
 	}else{
@@ -101,51 +102,4 @@ function Display($text){
 		echo "</form>";
 	}
 }
-
-function format_incorrect_file(){
-	/*
-	"""
-	Cette fonction vérifie le format de la boite 
-	@return {Boolean} : True si le format du texte dans la boite query est incorrecte, False sinon
-	"""
-	*/
-
-	//Ouvre le fichier et retourne un tableau contenant une ligne par élément
-	$lines = file($_FILES['quick2D']['tmp_name']);
-	var_dump($lines);
-	$tab = array(); //tableau dans lequel les clefs seront 
-	//Construit le dictionnaire
-	foreach ($lines as $lineNumber => $lineContent){
-		if(preg_match('/^[A-Z]/',$lineContent, $m)){		//test que ce n'est pas une ligne vide
-			$tmp = split(' ',$lineContent);
-			if(count($tmp)!=2)	return true;		//une ligne a plus de deux colonnes
-			if(array_key_exists($tmp[0], $tab))	$tab[$tmp[0]] .= $tmp[1];
-			else	$tab[$tmp[0]] = $tmp[1];
-		}
-	}
-	
-	//On enleve les espaces et on test que les tailles des alinements sont les memes
-	$longueur = array();
-	$noms_seqs = array();
-	global $noms_seqs;
-	
-	if(isset($tab)){
-		foreach($tab as $key=>$val){
-			$tab[$key] = str_replace("\s","",$val);
-			$tab[$key] = str_replace("\n","",$tab[$key]);
-			$tab[$key] = str_replace("\t","",$tab[$key]);
-			//test de la presence de bon elements dans l'alignement de la proteine $key
-			if(!preg_match('/^([A-Z]|-)+$/',$tab[$key],$m)) return true;
-			$longueur[] = strlen($tab[$key]);
-			$noms_seqs[$key] = 1;
-		}
-		$prem = "";
-		foreach($longueur as $val){
-			if($prem == "")	$prem = $val;
-			if($prem != $val) return true;
-		}
-	}
-	return false;
-}
-
 ?>

@@ -37,7 +37,7 @@
     <div class="content_resize">
       <div class="mainbar">
         <div class="article"> 
-            <h2><center>View 2d Alignment</center></h2>
+            <h2><center>Compare Predictions</center></h2>
         <!-- <p class="infopost">Posted <span class="date">on 11 sep 2018</span> by <a href="#">Admin</a> &nbsp;&nbsp;|&nbsp;&nbsp; Filed under <a href="#">templates</a>, <a href="#">internet</a></p> -->    
         
         </div> 
@@ -50,6 +50,7 @@
 include('cpfonctions.php');
 include('variableDAmbiance.php');
 testValidite();
+unlink(RESULTAT.$_SERVER['REMOTE_ADDR'].".svg");
 ?> 
           </div> 
           <div class="clr"></div>
@@ -67,7 +68,6 @@ testValidite();
           <div class="clr"></div>
           <ul class="sb_menu">
             <li><a href="view2DalignFormulaire.php">View 2d Alignment</a></li>
-            <li><a href="compute2Dalign.html">Compute 2d Alignment</a></li>
             <li><a href="comparepredFormulaire.php">Compare Predictions</a></li>
           </ul>
         </div>

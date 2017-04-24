@@ -67,7 +67,6 @@ echo formulaireCP();
           <div class="clr"></div>
           <ul class="sb_menu">
             <li><a href="view2DalignFormulaire.php">View 2d Alignment</a></li>
-            <li><a href="compute2Dalign.html">Compute 2d Alignment</a></li>
             <li><a href="comparepredFormulaire.php">Compare Predictions</a></li>
           </ul>
         </div>
