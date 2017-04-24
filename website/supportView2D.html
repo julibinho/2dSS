@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Voope</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="css/coin-slider.css" />
+<script type="text/javascript" src="js/cufon-yui.js"></script>
+<script type="text/javascript" src="js/cufon-yanone.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/coin-slider.min.js"></script>
+</head>
+<body>
+<div class="main">
+  <div class="header">
+    <div class="header_resize">
+      <div class="menu_nav">
+        <ul>
+          <li class="active"><a href="index.html"><span>Home</span></a></li>
+          <li><a href="support.html"><span>Help</span></a></li>
+          <li><a href="about.html"><span>Examples</span></a></li>
+          <li><a href="contact.html"><span>Contact Us</span></a></li>
+        </ul>
+      </div>
+      <div class="clr"></div>
+      <div class="logo">
+        <h1><a href="index.html">2d<span>SS</span> <small>secondary structure visualization</small></a></h1>
+      </div>
+      <div class="clr"></div>
+      
+       
+        <div class="clr"></div>
+      
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="content_resize">
+      <div class="mainbar">
+        <div class="article"> 
+          <h2><center>Help<center></h2>
+        
+          <div class="clr"></div>
+         
+          <div class="post_content">
+            
+            <p><strong><h2><font size="6">View 2D Alignment</strong></font></h2></p>
+
+	    <p>This menu is used for secondary structure visualization whereby you input your aligned sequences and secondary structure predictions. You can choose to insert your data directly in the text boxes or upload files for each data input. If all fields are filled, only your uploaded files will be considered.</p>
+           
+	 <p><strong><font size="3">Data format for text boxes</strong></font></h2></p>
+	<p>In order for you data input to be accepted correctly if you choose to insert data in the text boxes, you need to follow the following input format for each text box:</p>
+	<p>For the <strong>sequence</strong> text box, on each line insert the protein name followed by spaces followed by the amino acids sequence</p>
+	<center><textarea style="resize:none" rows=3 cols=74>Acof_DPh3      ------------------------------------------------------------
+Srob_Dph4      -------------------------MSSASTS---------------------------S
+Acof_DPh1      XDYLQQHQHKKTHKKKTIDSLIHSLMTMPPD---EETSGDGDETGHR---PPNNNGVKEI</textarea></center>
+	<p>>>>>MODIF A FAIRE ICI<<<<</p>
+	<center><textarea style="resize:none" rows=8 cols=74>Acof_DPh3      ------------------------------------------------------------
+Acof_DPh4      -----------------------------------------------MAPPPKDITLSSA
+Acof_DPh1      XDYLQQHQHKKTHKKKTIDSLIHSLMTMPPD---EETSGDGDETGHR---PPNNNGVKEI
+
+
+Acof_DPh3      -----MAPPDSMEDLPFRETLVEQAQLSECDRIDLNL--LGNIQGDTAHVAFMTYPE---
+Acof_DPh4      SQQLSQATGDEEATLTFRETLMEDIQLNECDYMNLNFLXLGNIQGDTSNVAFVSYPA---
+Acof_DPh1      SFQTS---SGERIPKTSAPSVITDEELFECDHIPLHL--IGHIQGNTGHVIFVTFPL---</textarea></center>
+
+	<p>For the <strong>2D Structures</strong> text box, on each line insert the protein name followed by a tabulation followed by the secondary structures</p>
+	<center><textarea style="resize:none" rows=9 cols=74>Srob_Dph4	CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCHHHHHHHHHHHHCCCCCCCCCCCCCEEEEEECCCCCHHHHHHHHHHHHHHHHHCCCCEEEEEECCCCCEEEEECCCCCCCCCEEEEEEECCCCCCCHHHHHHHHHHHHHHHHHHCC
+Acof_DPh1	CCHHHHHHHHHCCCCCHHHHHHHHHHCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCE
+Acof_DPh3	CCCCCCCCCCCCHHHHHHHHHHHHHCHHHHHHHHCCCCCCCCCCCCCCCCCCEEEECCCCCCCCCCCCCCCCCCHHHHCCCCCCCCCHHHHHHHHHHHHHHHHHHHHHHHHCCCC</textarea></center>
+	
+	<p>Make sure the protein names correspond to those inserted in the sequence text box. They may not appear in the same order but must be found in the sequences requested. Note that the secondary structures may only contain C,H and E.</p>
+	<p>For full examples about data input, please see the <a href="aboutView2D.html">View2D Examples</a> on the Examples tab.</p>
+
+	<p><strong><font size="3">Uploading files</strong></font></h2></p>
+	<p>Alternatively, you may choose to upload the alignment and 2D Structure files instead of filling boxes by clicking the appropriate upload buttons. The files' respective accepted formats must respect those explained for the text boxes above.</br><center>Or upload file:<button type="button">Choose file</button> No file chosen</center></p>
+	
+	<p><strong><font size="3">Alignment 2D File</strong></font></h2></p>
+	<p>The third option available is to upload the alignment 2D file output from the Ali2D website found at <a href="https://toolkit.tuebingen.mpg.de/ali2d">https://toolkit.tuebingen.mpg.de/ali2d</a>. On this website, you can insert your unaligned sequences and the ali2D tool will align them and predict their 2D structures. Our website can accept their output file and produce the appropriate useful visualization.</p>
+	<center>Or upload alignment2D file:<button type="button">Choose file</button> No file chosen</center></p>
+	<p><strong><font size="3">Submitting</strong></font></h2></p>
+
+	<p>Once you have ensured all your data or files have been correctly input, click on the <button type="button">Submit</button> button and the result will appear on a new page.</p>
+          </div>
+          <div class="clr"></div>
+        </div>
+        
+        <p class="pages"><a href="support.html">1</a> <span>2</span> <a href="supportCompare.html">&raquo;</a></p>
+      </div>
+
+      <div class="sidebar">
+        <div class="gadget">
+          <h2 class="star">Help Menu</h2>
+          <div class="clr"></div>
+          <ul class="sb_menu">
+
+            <li><a href="support.html">Home Page</a></li>
+            <li><a href="supportView2D.html"><strong>View 2d Alignment</strong></a></li>
+            <li><a href="supportCompare.html">Compare Predictions</a></li>
+          </ul>
+        </div>
+        <div class="gadget">
+         
+          <div class="clr"></div>
+        </div>
+      </div>
+
+<div class="sidebar"><br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+        <div class="gadget">
+          <h2 class="star">Help Menu</h2>
+          <div class="clr"></div>
+          <ul class="sb_menu">
+
+            <li><a href="support.html">Home Page</a></li>
+            <li><a href="supportView2D.html"><strong>View 2d Alignment</strong></a></li>
+            <li><a href="supportCompare.html">Compare Predictions</a></li>
+          </ul>
+        </div>
+        <div class="gadget">
+         
+          <div class="clr"></div>
+        </div>
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="fbg">
+    <div class="fbg_resize">
+      <div class="col c1">
+        <h2><span>Image</span> Gallery</h2>
+        <a href="#"><img src="images/gal1.jpg" width="75" height="75" alt="" class="gal" /></a> <a href="#"><img src="images/gal2.jpg" width="75" height="75" alt="" class="gal" /></a> <a href="#"><img src="images/gal3.jpg" width="75" height="75" alt="" class="gal" /></a> <a href="#"><img src="images/gal4.jpg" width="75" height="75" alt="" class="gal" /></a> <a href="#"><img src="images/gal5.jpg" width="75" height="75" alt="" class="gal" /></a> <a href="#"><img src="images/gal6.jpg" width="75" height="75" alt="" class="gal" /></a> </div>
+      <div class="col c2">
+        <h2><span>Services</span> Overview</h2>
+        <p>Curabitur sed urna id nunc pulvinar semper. Nunc sit amet tortor sit amet lacus sagittis posuere cursus vitae nunc.Etiam venenatis, turpis at eleifend porta, nisl nulla bibendum justo.</p>
+        <ul class="fbg_ul">
+          <li><a href="#">Lorem ipsum dolor labore et dolore.</a></li>
+          <li><a href="#">Excepteur officia deserunt.</a></li>
+          <li><a href="#">Integer tellus ipsum tempor sed.</a></li>
+        </ul>
+      </div>
+      <div class="col c3">
+        <h2><span>Contact</span> Us</h2>
+        <p>Nullam quam lorem, tristique non vestibulum nec, consectetur in risus. Aliquam a quam vel leo gravida gravida eu porttitor dui.</p>
+        <p class="contact_info"> <span>Address:</span> 1458 TemplateAccess, USA<br />
+          <span>Telephone:</span> +123-1234-5678<br />
+          <span>FAX:</span> +458-4578<br />
+          <span>Others:</span> +301 - 0125 - 01258<br />
+          <span>E-mail:</span> <a href="#">mail@yoursitename.com</a> </p>
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer_resize">
+      <p class="lf">Copyright &copy; <a href="#">Domain Name</a>. All Rights Reserved</p>
+      <p class="rf">Design by <a target="_blank" href="http://www.dreamtemplate.com/">DreamTemplate</a></p>
+      <div style="clear:both;"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
