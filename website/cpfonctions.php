@@ -22,7 +22,7 @@ function formulaireCP(){
          	<br /><br /><br />
                 <!-- Boite pour upload sequence-->
         	<label for="quick2D">Or upload Quick2D File:</label>
-        	<input type="file" id="quick2D" name="quick2D" width="630"/><a href="https://toolkit.tuebingen.mpg.de/quick2_d">site ali2D</a>
+        	<input type="file" id="quick2D" name="quick2D" width="630"/><a href="https://toolkit.tuebingen.mpg.de/quick2_d">site quick2D</a>
 		<br />
 		<span id="filevide"></span>
 		<br /><br /><br />	
